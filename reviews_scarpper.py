@@ -1,9 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from sentiment_analysis import sentiment_analysis
+from keyword_extraction import keyword_extraction
+from word_cloud import wordcloud
+from io import BytesIO
+
+
 
 app = FastAPI()
 
@@ -25,7 +31,9 @@ def reviews():
 
     
 
-    browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+    # browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+    browser = webdriver.Chrome('chromedriver',options=options)
+
     browser.get(url)
     # print(browser.page_source)  # results
 
@@ -47,5 +55,17 @@ def reviews():
     reviews_arr=[]
     for each_review in reviews:
         reviews_arr.append(each_review.text)
-    
-    return {"reviews": reviews_arr}
+
+#--------------------------------------------------------------------------------------------------#
+    sentiment_analysis_dict = sentiment_analysis(reviews_arr)
+
+    keywords_dict = keyword_extraction(sentiment_analysis_dict)
+
+    word_cloud = wordcloud(keywords_dict)
+
+
+    img = BytesIO()
+    print(type(img))
+    word_cloud.to_image().save(img, 'PNG')
+    img.seek(0)
+    return Response(content=img, media_type="image/png")
