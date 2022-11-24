@@ -1,8 +1,6 @@
 from keybert import KeyBERT
-from keyphrase_vectorizers import KeyphraseCountVectorizer
 
 def keyword_extracting_function(text):
-    vectorizer = KeyphraseCountVectorizer()
     kw_model = KeyBERT()
     keywords=kw_model.extract_keywords(docs=text,stop_words='english')
     return keywords
