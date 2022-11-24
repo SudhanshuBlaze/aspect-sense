@@ -32,5 +32,5 @@ pip3 -r requirements.txt
 `Step 4:` Run the server in debug mode
 
 ```bash
-uvicorn reviews_scrapper:app --reload
+uvicorn reviews_scrapper:app --debug
 ```

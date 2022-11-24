@@ -8,11 +8,20 @@ from sentiment_analysis import sentiment_analysis
 from keyword_extraction import keyword_extraction
 from word_cloud import wordcloud
 from io import BytesIO
-
-
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 app = FastAPI()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get('/')
 def reviews():
@@ -69,3 +78,7 @@ def reviews():
     word_cloud.to_image().save(img, 'PNG')
     img.seek(0)
     return Response(content=img, media_type="image/png")
+    
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000, debug=True)
