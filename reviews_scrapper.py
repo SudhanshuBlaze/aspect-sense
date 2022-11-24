@@ -4,9 +4,20 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 app = FastAPI()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get('/')
 def reviews():
@@ -49,3 +60,6 @@ def reviews():
         reviews_arr.append(each_review.text)
     
     return {"reviews": reviews_arr}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000, debug=True)
