@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
 from fastapi import FastAPI, Response
@@ -8,11 +8,21 @@ from sentiment_analysis import sentiment_analysis
 from keyword_extraction import keyword_extraction
 from word_cloud import wordcloud
 from io import BytesIO
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 
 
 app = FastAPI()
+origins = ["*"]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get('/')
 def reviews():
@@ -31,8 +41,8 @@ def reviews():
 
     
 
-    # browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
-    browser = webdriver.Chrome('chromedriver',options=options)
+    browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+    # browser = webdriver.Chrome('./chromedriver',options=options)
 
     browser.get(url)
     # print(browser.page_source)  # results
@@ -50,22 +60,48 @@ def reviews():
                 scrollable_div)
         time.sleep(2)
 
-    reviews = browser.find_elements(by=By.CLASS_NAME,value="wiI7pd")
+    review_span = browser.find_elements(by=By.CLASS_NAME,value="wiI7pd")
+    rating_span = browser.find_elements(by=By.CLASS_NAME,value="kvMYJc")
     
+    #code for aggregating reviews and ratings
     reviews_arr=[]
-    for each_review in reviews:
-        reviews_arr.append(each_review.text)
+    ratings_arr=[]
+    for i in range(len(review_span)):
+          if len(review_span[i].text)!=0:
+                  #putting reviews in reviews_arr
+                  reviews_arr.append(review_span[i].text)
+                  #putting ratings in ratings_arr
+                  ratings=rating_span[i].get_attribute("aria-label").split(" ")[1]
+                  if int(ratings)>3:
+                          ratings_arr.append("Positive")
+                  else:
+                          ratings_arr.append("Negative")
 
 #--------------------------------------------------------------------------------------------------#
-    sentiment_analysis_dict = sentiment_analysis(reviews_arr)
+    #code for classifying reviews into positive or negative
+    positive=[]
+    negative=[]
+    
+    for i in range(len(ratings_arr)):
+        if ratings_arr[i]=="Positive":
+            positive.append(reviews_arr[i])
+        else:
+            negative.append(reviews_arr[i])
 
-    keywords_dict = keyword_extraction(sentiment_analysis_dict)
+    sentiment_dict = {"Positive" : positive,"Negative" : negative }
+    
+    #keyword extraction
+    keywords_dict = keyword_extraction(sentiment_dict)
 
-    word_cloud = wordcloud(keywords_dict)
+    # word_cloud = wordcloud(keywords_dict)
 
 
-    img = BytesIO()
-    print(type(img))
-    word_cloud.to_image().save(img, 'PNG')
-    img.seek(0)
-    return Response(content=img, media_type="image/png")
+    # img = BytesIO()
+    # print(type(img))
+    # word_cloud.to_image().save(img, 'PNG')
+    # img.seek(0)
+    # return Response(content=img, media_type="image/png")
+    return keywords_dict
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000, debug=True)
