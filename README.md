@@ -48,7 +48,12 @@ npm start
 
 ## Project Setup with Docker
 
-- Navigate to the root directory of the project and build the Docker images using docker-compose build.
+- Navigate to the root directory of the project and build the Docker images:
+
+```bash
+docker-compose build
+```
+
 - Start the containers:
 
 ```bash
