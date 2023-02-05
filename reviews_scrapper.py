@@ -4,12 +4,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
 from fastapi import FastAPI, Response
+from aspect_extraction import analysis_with_spacy
 from sentiment_analysis import sentiment_analysis
 from keyword_extraction import keyword_extraction
+from text_cleaner import text_process
+from text_segmentation import segment_review
 from word_cloud import wordcloud
 from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import pandas as pd
+import spacy
 
 
 
@@ -72,31 +77,64 @@ def reviews():
                   else:
                           ratings_arr.append("Negative")
 
+
+    df_reviews = pd.DataFrame(list(zip(reviews_arr, ratings_arr)),columns =['reviews', 'ratings'])
+
 #--------------------------------------------------------------------------------------------------#
-    #code for classifying reviews into positive or negative
-    positive=[]
-    negative=[]
+    #Code for cleaning the reviews
+    df_reviews['reviews']=df_reviews['reviews'].apply(text_process)
+    print(reviews_arr[3])
+    print(df_reviews['reviews'][3])
+
+#--------------------------------------------------------------------------------------------------#
+    #code for text segmentation
+    if type(df_reviews)!=pd.core.frame.DataFrame:
+        df_reviews=df_reviews.to_frame()
     
-    for i in range(len(ratings_arr)):
-        if ratings_arr[i]=="Positive":
-            positive.append(reviews_arr[i])
-        else:
-            negative.append(reviews_arr[i])
 
-    sentiment_dict = {"Positive" : positive,"Negative" : negative }
+    df_reviews["segmented_reviews"]=df_reviews['reviews'].apply(segment_review)
+    print(df_reviews.head())
+
+#--------------------------------------------------------------------------------------------------#
+    #code for aspect,descriptor and sentiment extraction
+    aspect_with_description=[]
+    aspect_with_polarity=[]
+
+    for each_tuple in df_reviews['segmented_reviews'].apply(analysis_with_spacy):
+        aspect_with_description.append(each_tuple[0])
+        aspect_with_polarity.append(each_tuple[1])
+
+    #add new columns with aspects
+    df_reviews['aspect_with_description']=aspect_with_description
+    df_reviews['aspect_with_polarity']=aspect_with_polarity
+    print(df_reviews.head())
+    print(df_reviews['aspect_with_description'])
+    print(df_reviews['aspect_with_polarity'])
+#--------------------------------------------------------------------------------------------------#
+    # #code for classifying reviews into positive or negative
+    # positive=[]
+    # negative=[]
     
-    #keyword extraction
-    keywords_dict = keyword_extraction(sentiment_dict)
+    # for i in range(len(ratings_arr)):
+    #     if ratings_arr[i]=="Positive":
+    #         positive.append(reviews_arr[i])
+    #     else:
+    #         negative.append(reviews_arr[i])
 
-    # word_cloud = wordcloud(keywords_dict)
+    # sentiment_dict = {"Positive" : positive,"Negative" : negative }
+    
+    # #keyword extraction
+    # keywords_dict = keyword_extraction(sentiment_dict)
+
+    # # word_cloud = wordcloud(keywords_dict)
 
 
-    # img = BytesIO()
-    # print(type(img))
-    # word_cloud.to_image().save(img, 'PNG')
-    # img.seek(0)
-    # return Response(content=img, media_type="image/png")
-    return keywords_dict
+    # # img = BytesIO()
+    # # print(type(img))
+    # # word_cloud.to_image().save(img, 'PNG')
+    # # img.seek(0)
+    # # return Response(content=img, media_type="image/png")
+    # return keywords_dict
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, debug=True)
