@@ -1,16 +1,11 @@
-from fastapi import FastAPI, Response
-from aspect_extraction import analysis_with_spacy
-# from sentiment_analysis import sentiment_analysis
-from keyword_extraction import keyword_extraction
-from reviews_scrapper import review_scrapper
-from text_cleaner import text_process
-from text_segmentation import segment_review
-from word_cloud import wordcloud
-from io import BytesIO
+from fastapi import FastAPI
+# from keyword_extraction import keyword_extraction
+# from word_cloud import wordcloud
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import pandas as pd
 from fastapi.responses import HTMLResponse
+from utils import *
 
 app = FastAPI()
 origins = ["*"]
