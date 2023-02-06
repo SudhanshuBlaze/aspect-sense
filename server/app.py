@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 # from keyword_extraction import keyword_extraction
-# from word_cloud import wordcloud
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import pandas as pd
 from fastapi.responses import HTMLResponse
 from utils import *
+
 
 app = FastAPI()
 origins = ["*"]
@@ -45,15 +45,23 @@ def pipeline(url):
     print(df_reviews.head())
     print(df_reviews['aspect_with_description'])
     print(df_reviews['aspect_with_polarity'])
-    return df_reviews
+    return df_reviews    
 
-@app.get('/', response_class=HTMLResponse)
+@app.get('/')
 def reviews(url:str):
     df_reviews=pipeline(url)
-    df_html = df_reviews.to_html(classes="table table-striped")
-    return df_reviews.to_json(orient="records")
+    json_reviews=df_reviews.to_json(orient="records")
 
-    # return HTMLResponse(f"{df_html}")
+    wordcloud_image_dict=get_word_cloud(df_reviews)
+    
+    response_data = {
+        "reviews": json_reviews,
+        "positive_wordcloud": wordcloud_image_dict["positive_wordcloud"],
+        "negative_wordcloud": wordcloud_image_dict["negative_wordcloud"],
+    }
+
+    return response_data
+    
 
 
 if __name__ == "__main__":

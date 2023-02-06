@@ -1,10 +1,43 @@
-from io import BytesIO
 import pandas as pd
 from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import io
+import base64
 
-def wordcloud(keywords_dict):
-    # df.isna().sum()
-    text = " ".join(words for words in keywords_dict['keywords'])
-    word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+def generate_word_cloud_img(words):
+    wordcloud = WordCloud(width = 800, height = 800, 
+                    background_color ='white', 
+                    stopwords = None, 
+                    min_font_size = 10).generate(" ".join(words))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
     
-    return word_cloud
+    # Save the figure to a temporary buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    
+    # Reset the figure so that it can be reused
+    plt.clf()
+    
+    # Return the image as a binary string
+    buf.seek(0)
+    image_data = buf.getvalue()
+    base64_image = base64.b64encode(image_data).decode("utf-8")
+    return f"data:image/png;base64,{base64_image}"
+
+def get_word_cloud(df_reviews):
+    positive_words=[]
+    negative_words=[]
+
+    for inner_list in df_reviews["aspect_with_polarity"]:
+        for dic in inner_list:
+            if dic['polarity'] is not None:
+                if dic['polarity'] >0 and dic['aspect'] is not None:
+                    positive_words.append(dic['aspect'])
+                elif dic['polarity'] < 0 and dic['aspect'] is not None:
+                    negative_words.append(dic['aspect'])
+
+    return {
+        "negative_wordcloud":generate_word_cloud_img(negative_words), 
+        "positive_wordcloud":generate_word_cloud_img(positive_words)
+    }
