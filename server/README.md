@@ -29,6 +29,10 @@ cd <repository>
 pip3 -r requirements.txt
 ```
 
+`Step 4:` Add API key
+
+- Generate OpenAI api key from [OpenAI](https://openai.com/api/)
+
 `Step 4:` Run the server in debug mode
 
 ```bash
