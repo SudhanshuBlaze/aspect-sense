@@ -27,7 +27,7 @@ pip install -r requirements.txt
 - Generate OpenAI api key from [OpenAI](https://openai.com/api/)
 
 ```bash
-uvicorn main:app --reload.
+uvicorn app:app --reload.
 ```
 
 - The server should be available at http://localhost:8000.
@@ -45,6 +45,7 @@ npm install
 ```bash
 npm start
 ```
+
 - The client should be available at http://localhost:3000.
 
 ## Project Setup with Docker

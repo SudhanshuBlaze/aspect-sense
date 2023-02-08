@@ -26,7 +26,7 @@ cd <repository>
 `Step 3:` Install requirements
 
 ```bash
-pip3 -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 `Step 4:` Add API key
