@@ -34,3 +34,13 @@ input[type="text"] {
 input[type="text"]:focus {
   border: 2px solid #555;
 }
+
+.btn {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+}
+
+.display-linebreak {
+  white-space: pre-line;
+}

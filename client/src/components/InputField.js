@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../App.css";
 
 const InputField = ({ handleSubmit, setUrl, url }) => {
   return (
@@ -9,14 +10,7 @@ const InputField = ({ handleSubmit, setUrl, url }) => {
         onChange={e => setUrl(e.target.value)}
         style={{ width: "80%", padding: "10px", marginRight: "10px" }}
       />
-      <button
-        type="submit"
-        style={{
-          padding: "10px",
-          backgroundColor: "#4CAF50",
-          color: "white",
-        }}
-      >
+      <button type="submit" className="btn">
         Submit
       </button>
     </form>
