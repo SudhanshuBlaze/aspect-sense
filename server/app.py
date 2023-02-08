@@ -7,6 +7,8 @@ from fastapi.responses import HTMLResponse
 from utils import *
 import os
 import openai
+from dotenv import load_dotenv
+load_dotenv()
 
 model_engine = "text-davinci-003"
 openai.api_key = os.getenv("api_key")
