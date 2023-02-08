@@ -5,7 +5,11 @@ import uvicorn
 import pandas as pd
 from fastapi.responses import HTMLResponse
 from utils import *
+import os
+import openai
 
+model_engine = "text-davinci-003"
+openai.api_key = os.getenv("api_key")
 
 app = FastAPI()
 origins = ["*"]
@@ -61,7 +65,21 @@ def reviews(url:str):
     }
 
     return response_data
-    
+
+@app.get("/absa")
+async def absa(prompt: str):
+    # Generate a response
+    completion = openai.Completion.create(
+        engine=model_engine,
+        prompt=f"fetch out aspect, descriptor and polarity of each aspect from the following sentence.{prompt}",
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+
+    response = completion.choices[0].text
+    return {"response": response}    
 
 
 if __name__ == "__main__":

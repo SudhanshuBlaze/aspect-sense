@@ -22,9 +22,9 @@ git clone https://github.com/SudhanshuBlaze/AspectSense.git
 pip install -r requirements.txt
 ```
 
-- The client should be available at http://localhost:3000.
-
 - Start the FastAPI server by navigating to the /server directory and running
+
+- Generate OpenAI api key from [OpenAI](https://openai.com/api/)
 
 ```bash
 uvicorn main:app --reload.
@@ -45,6 +45,7 @@ npm install
 ```bash
 npm start
 ```
+- The client should be available at http://localhost:3000.
 
 ## Project Setup with Docker
 
