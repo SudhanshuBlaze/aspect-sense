@@ -6,7 +6,9 @@ import AnalyserPipeline from "./components/AnalyserPipeline";
 function App() {
   return (
     <div className="App">
-      <h1>The ultimate Aspect based sentiment analyser</h1>
+      <h1 style={{ textAlign: "center" }}>
+        The ultimate Aspect based sentiment analyser
+      </h1>
 
       {/* <AnalyserPipeline /> */}
       <AbsaEngine />
