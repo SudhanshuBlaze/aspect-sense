@@ -73,7 +73,7 @@ async def absa(prompt: str):
     # Generate a response
     completion = openai.Completion.create(
         engine=model_engine,
-        prompt=f"fetch out aspect, descriptor and polarity of each aspect from the following sentence.{prompt}",
+        prompt=f"fetch out aspect, descriptor and polarity of each aspect from the following sentence. The polarity should be in the range of 1 to 10. {prompt}",
         max_tokens=1024,
         n=1,
         stop=None,
