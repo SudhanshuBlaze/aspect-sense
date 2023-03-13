@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
-import AbsaEngine from "./components/AbsaEngine";
-import AnalyserPipeline from "./components/AnalyserPipeline";
+import AbsaEngine from "./components/AbsaEngine/AbsaEngine";
+import AnalyserPipeline from "./components/AnalyserPipeline/AnalyserPipeline";
 
 function App() {
   return (
@@ -10,7 +10,8 @@ function App() {
         The ultimate Aspect based sentiment analyser
       </h1>
 
-      {/* <AnalyserPipeline /> */}
+      <AnalyserPipeline />
+
       <AbsaEngine />
     </div>
   );

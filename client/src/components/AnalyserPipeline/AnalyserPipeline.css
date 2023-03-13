@@ -1,0 +1,40 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+@media only screen and (max-width: 600px) {
+  th,
+  td {
+    display: block;
+    width: 100%;
+  }
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="text"]:focus {
+  border: 2px solid #555;
+}
+
+.display-linebreak {
+  white-space: pre-line;
+}

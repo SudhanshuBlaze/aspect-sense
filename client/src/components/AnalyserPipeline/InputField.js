@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import "../App.css";
+import React from "react";
+import "./AnalyserPipeline.css";
+import SubmitButton from "../../ui/SubmitButton/SubmitButton";
 
 const InputField = ({ handleSubmit, setUrl, url }) => {
   return (
@@ -10,9 +11,8 @@ const InputField = ({ handleSubmit, setUrl, url }) => {
         onChange={e => setUrl(e.target.value)}
         style={{ width: "80%", padding: "10px", marginRight: "10px" }}
       />
-      <button type="submit" className="btn">
-        Submit
-      </button>
+
+      <SubmitButton />
     </form>
   );
 };
