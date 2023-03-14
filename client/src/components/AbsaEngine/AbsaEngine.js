@@ -5,7 +5,7 @@ import SubmitButton from "../../ui/SubmitButton/SubmitButton";
 import Loader from "../../ui/Loader/Loader";
 
 const AbsaEngine = () => {
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState({});
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,7 +40,6 @@ const AbsaEngine = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        response &&
         response.data && (
           <>
             <p className="results-label">Results</p>
