@@ -38,3 +38,8 @@ input[type="text"]:focus {
 .display-linebreak {
   white-space: pre-line;
 }
+
+.form-label {
+  font-weight: bold;
+  font-size: 2em;
+}

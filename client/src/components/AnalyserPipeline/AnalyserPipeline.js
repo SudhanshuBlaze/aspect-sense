@@ -3,14 +3,15 @@ import ReviewTable from "./ReviewTable";
 import WordCloud from "./WordCloud";
 import axios from "axios";
 import { useState } from "react";
+import Loader from "../../ui/Loader/Loader";
 
 const AnalyserPipeline = () => {
   const [url, setUrl] = useState("");
   const [data, setData] = useState([]);
-  const [loader, setLoader] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async event => {
-    setLoader(true);
+    setIsLoading(true);
     event.preventDefault();
 
     try {
@@ -26,15 +27,20 @@ const AnalyserPipeline = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoader(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <InputField handleSubmit={handleSubmit} setUrl={setUrl} url={url} />
+      <InputField
+        handleSubmit={handleSubmit}
+        setUrl={setUrl}
+        url={url}
+        isLoading={isLoading}
+      />
       <ReviewTable data={data} />
-      <WordCloud data={data} />
+      <WordCloud data={data} />{" "}
     </>
   );
 };

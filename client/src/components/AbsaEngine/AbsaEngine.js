@@ -27,6 +27,7 @@ const AbsaEngine = () => {
 
   return (
     <div className="form-container">
+      <p className="form-label">Enter your prompt</p>
       <form onSubmit={handleSubmit}>
         <textarea
           value={prompt}
