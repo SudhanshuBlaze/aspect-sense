@@ -1,0 +1,33 @@
+.results-label {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.results-container {
+  width: 500px;
+  height: 200px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  overflow-y: scroll;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.form-textarea {
+  width: 500px;
+  height: 200px;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  resize: none;
+}

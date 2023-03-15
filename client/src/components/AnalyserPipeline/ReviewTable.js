@@ -1,3 +1,5 @@
+import "./AnalyserPipeline.css";
+
 const ReviewTable = ({ data }) => {
   return (
     data?.reviews?.length > 0 && (
