@@ -14,7 +14,7 @@ const AbsaEngine = () => {
     setIsLoading(true);
 
     try {
-      const result = await axios.get("http://localhost:8000/absa", {
+      const result = await axios.get("http://localhost:8000/gpt_absa", {
         params: { prompt },
       });
       setResponse(result);
@@ -45,7 +45,7 @@ const AbsaEngine = () => {
           <>
             <p className="results-label">Results</p>
             <div className="display-linebreak results-container">
-              {response.data.response}
+              {response.data}
             </div>
           </>
         )

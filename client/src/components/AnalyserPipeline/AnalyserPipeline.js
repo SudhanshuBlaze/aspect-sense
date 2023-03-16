@@ -3,7 +3,6 @@ import ReviewTable from "./ReviewTable";
 import WordCloud from "./WordCloud";
 import axios from "axios";
 import { useState } from "react";
-import Loader from "../../ui/Loader/Loader";
 
 const AnalyserPipeline = () => {
   const [url, setUrl] = useState("");
@@ -15,7 +14,7 @@ const AnalyserPipeline = () => {
     event.preventDefault();
 
     try {
-      const result = await axios.get("http://localhost:8000/", {
+      const result = await axios.get("http://localhost:8000/pipeline", {
         params: { url },
       });
 
