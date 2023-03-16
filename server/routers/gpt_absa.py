@@ -9,12 +9,14 @@ router = APIRouter()
 model_engine = "text-davinci-003"
 openai.api_key = os.getenv("api_key")
 
-@router.get("/absa")
+@router.get("/gpt_absa")
 def gpt_absa(prompt: str):
-    # Generate a response
+    '''
+    Generates an aspect-based sentiment analysis (ABSA) response using OpenAI's GPT-3 language model.
+    '''
     completion = openai.Completion.create(
         engine=model_engine,
-        prompt=f"fetch out aspect, descriptor and polarity of each aspect from the following sentence. The polarity should be in the range of 1 to 10. {prompt}",
+        prompt=f"fetch out aspect, descriptor and polarity of each aspect from the following sentence. The polarity should be in the range of 1 to 10. {prompt}" ,
         max_tokens=1024,
         n=1,
         stop=None,
@@ -22,4 +24,4 @@ def gpt_absa(prompt: str):
     )
 
     response = completion.choices[0].text
-    return {"response": response}   
+    return response
