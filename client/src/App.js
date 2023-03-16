@@ -1,19 +1,22 @@
 import React from "react";
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AbsaEngine from "./components/AbsaEngine/AbsaEngine";
 import AnalyserPipeline from "./components/AnalyserPipeline/AnalyserPipeline";
+import Home from "./components/Home/Home";
+import "semantic-ui-css/semantic.min.css";
 
 function App() {
   return (
-    <div className="App">
-      <h1 style={{ textAlign: "center" }}>
-        The ultimate Aspect based sentiment analyser
-      </h1>
-
-      <AnalyserPipeline />
-
-      <AbsaEngine />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/analyser-pipeline" element={<AnalyserPipeline />} />
+          <Route path="/absa-engine" element={<AbsaEngine />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

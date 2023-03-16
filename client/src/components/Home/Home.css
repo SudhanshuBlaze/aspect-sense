@@ -1,0 +1,10 @@
+ui.container {
+  padding: 1em;
+}
+.ui.card {
+  margin: 1em;
+  width: 30%;
+}
+.ui.header {
+  margin-top: 12em;
+}
