@@ -35,10 +35,6 @@ input[type="text"]:focus {
   border: 2px solid #555;
 }
 
-.display-linebreak {
-  white-space: pre-line;
-}
-
 .form-label {
   font-weight: bold;
   font-size: 2em;
