@@ -12,8 +12,8 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/analyser-pipeline" element={<AnalyserPipeline />} />
-          <Route path="/absa-engine" element={<AbsaEngine />} />
+          <Route path="/scrapper_pipeline" element={<AnalyserPipeline />} />
+          <Route path="/single_review" element={<AbsaEngine />} />
         </Routes>
       </div>
     </BrowserRouter>

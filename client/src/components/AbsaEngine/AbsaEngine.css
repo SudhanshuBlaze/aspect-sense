@@ -1,37 +1,31 @@
-.results-label {
-  margin-top: 20px;
-  font-size: 20px;
-}
-
-.results-container {
-  width: 500px;
-  height: 200px;
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: 1px solid gray;
-  overflow-y: scroll;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
-.form-textarea {
-  width: 500px;
-  height: 200px;
-  margin-bottom: 20px;
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: 1px solid gray;
-  resize: none;
+.text-area {
+  min-height: 20vh;
+  min-width: 40vw;
+  font-size: 15px;
 }
-
+.results-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5vh;
+}
 .display-linebreak {
   white-space: pre-line;
+  font-size: 1.4em;
 }

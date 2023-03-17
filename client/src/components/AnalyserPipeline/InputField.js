@@ -1,7 +1,6 @@
 import React from "react";
 import "./AnalyserPipeline.css";
-import SubmitButton from "../../ui/SubmitButton/SubmitButton";
-import Loader from "../../ui/Loader/Loader";
+import { Button } from "semantic-ui-react";
 
 const InputField = ({ handleSubmit, setUrl, url, isLoading }) => {
   return (
@@ -13,7 +12,9 @@ const InputField = ({ handleSubmit, setUrl, url, isLoading }) => {
         style={{ width: "80%", padding: "10px", marginRight: "10px" }}
       />
 
-      {isLoading ? <Loader /> : <SubmitButton />}
+      <Button loading={isLoading} onClick={handleSubmit}>
+        Submit url
+      </Button>
     </form>
   );
 };
