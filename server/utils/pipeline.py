@@ -1,7 +1,7 @@
 import pandas as pd
 from utils import *
 
-def pipeline(url):
+def pipeline(url: str) -> pd.DataFrame:
     df_reviews=review_scrapper(url)
     
     df_reviews['reviews']=df_reviews['reviews'].apply(text_process) #cleaning the reviews

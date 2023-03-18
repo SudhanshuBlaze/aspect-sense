@@ -1,24 +1,28 @@
 import spacy
 from spacy.language import Language
+from typing import List
 
-#add a pipe which splits at conjunctions and separators
-nlp=spacy.load("en_core_web_sm")
-separators=[ ';', '!']
+# Load the English language model
+nlp = spacy.load("en_core_web_sm")
 
-@Language.component("component")
+# Define the characters that should be treated as sentence separators
+separators = [';', '!']
+
+# Define a custom pipeline component to set sentence boundaries
+@Language.component("set_custom_boundaries")
 def set_custom_boundaries(doc):
-  for token in doc[:-1]:
-    if token.text in separators or token.tag_ == 'CC':
-      doc[token.i+1].is_sent_start = True
-  return doc
+    for token in doc[:-1]:
+        if token.text in separators or token.tag_ == 'CC':
+            doc[token.i+1].is_sent_start = True
+    return doc
 
-nlp.add_pipe("component", before='parser')
-# nlp.pipe_names
+# Add the custom pipeline component before the parser
+nlp.add_pipe("set_custom_boundaries", before='parser')
 
-#function to segment text
-def segment_review(review):
-  segmented_neg_reviews=[]
-  doc=nlp(str(review))
-  for sent in doc.sents:
-    segmented_neg_reviews.append(sent.text)
-  return segmented_neg_reviews
+
+def segment_review(review: str) -> List[str]:
+    # Apply the language model to the review and extract the sentences
+    doc = nlp(str(review))
+    segmented_reviews = [sent.text for sent in doc.sents]
+    return segmented_reviews
+

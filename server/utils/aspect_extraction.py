@@ -1,15 +1,16 @@
 from textblob import TextBlob
 import spacy
+from typing import List, Tuple
 
 nlp = spacy.load("en_core_web_sm")
 
-def get_aspect(doc):
+def get_aspect(doc: spacy.tokens.Doc) -> str:
     for token in doc:
         if token.dep_ == 'nsubj' and token.pos_ == 'NOUN':
             return token.text
     return ''
 
-def get_descriptor(doc):
+def get_descriptor(doc: spacy.tokens.Doc) -> str:
     descriptive_term = ''
     for i, token in enumerate(doc):
         if token.pos_ == 'ADJ':
@@ -24,12 +25,12 @@ def get_descriptor(doc):
             break
     return descriptive_term
 
-def get_polarity(segment):
+def get_polarity(segment: str) -> float:
     polarity = round(TextBlob(segment).sentiment.polarity, 2)
     return polarity
 
 
-def analysis_with_spacy(reviews_list):
+def analysis_with_spacy(reviews_list: List[str]) -> Tuple[List[dict], List[dict]]:
     aspects ,polarities = [], []
     for segment in reviews_list:
         doc = nlp(segment)
