@@ -1,4 +1,4 @@
-# Reviews analyser
+# Fast API Server
 
 ## Goal
 
