@@ -20,7 +20,7 @@ const ExampleSection = () => {
   return (
     <Container>
       <div className="example-section-container">
-        <div style={{ width: "50%" }}>
+        <div>
           <Header
             as="h2"
             content="Example: Analyzing Restaurant Reviews"
@@ -35,7 +35,7 @@ const ExampleSection = () => {
           </p>
         </div>
 
-        <Card style={{ width: "40%" }} fluid>
+        <Card fluid>
           <Image
             src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
             size="small"
