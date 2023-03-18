@@ -1,7 +1,7 @@
 const JSONToString = dataObj =>
   dataObj
-    .map(aspect => {
-      return `Aspect: ${aspect.aspect}, Descriptor: ${aspect.description}, Polarity: ${aspect.polarity}`;
+    .map(each => {
+      return `Aspect: ${each.aspect}, Descriptor: ${each.description}, Polarity: ${each.polarity}`;
     })
     .join("\n\n");
 

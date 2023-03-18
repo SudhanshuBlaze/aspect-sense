@@ -1,13 +1,14 @@
 from fastapi import APIRouter
 import openai
-import os
+from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
 
 router = APIRouter()
 
-model_engine = "text-davinci-003"
-openai.api_key = os.getenv("api_key")
+# Load OpenAI API key and model engine from environment variables
+openai.api_key = getenv("OPENAI_API_KEY")
+model_engine = getenv("OPENAI_MODEL_ENGINE")
 
 @router.get("/gpt_absa")
 def gpt_absa(review: str):
