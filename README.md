@@ -15,6 +15,7 @@ Image Credits: [Springer](https://link.springer.com/article/10.1007/s11042-022-1
 
 - git
 - pip3
+- node
 
 `Step 1:` Clone this repository
 
