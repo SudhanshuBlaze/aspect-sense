@@ -3,7 +3,7 @@ from utils import *
 
 router = APIRouter()
 
-@router.get('/pipeline')
+@router.get('/scrapper_pipeline')
 def absa_pipeline(url:str):
     '''
     This endpoint performs a pipeline of operations for a given URL of a location on Google Maps. It first scrapes the reviews of the location from Google Maps using the provided URL. It then applies aspect-based sentiment analysis (ABSA) on each of the scraped reviews using a pre-trained spaCy model. The result of the ABSA is returned as a JSON object containing information on the aspects of the review and their corresponding sentiment polarity.
