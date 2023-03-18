@@ -1,7 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
 import "../AbsaEngine/AbsaEngine.css";
-import { Button, Form, TextArea, Container, Select } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  TextArea,
+  Container,
+  Select,
+  Segment,
+  Header,
+} from "semantic-ui-react";
+import HeaderDesc from "../../ui/HeaderDesc";
 
 const AbsaEngine = () => {
   const [response, setResponse] = useState({});
@@ -31,6 +40,11 @@ const AbsaEngine = () => {
 
   return (
     <Container className="container">
+      <HeaderDesc
+        header="Single Review ABSA Engine. results."
+        description="This tool allows you to perform aspect-based sentiment analysis (ABSA) on a single review. Simply enter your review text and select the language model you want to use: GPT or spaCy. The tool will identify the different aspects and descriptors mentioned in the review andtheir associated sentiment scores."
+      />
+
       <Form onSubmit={handleSubmit} className="form-container">
         <h2>Enter your prompt</h2>
         <Form.Field>
