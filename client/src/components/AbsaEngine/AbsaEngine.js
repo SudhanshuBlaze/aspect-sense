@@ -3,10 +3,11 @@ import { useState } from "react";
 import "../AbsaEngine/AbsaEngine.css";
 import { Button, Form, TextArea, Container, Select } from "semantic-ui-react";
 import HeaderDesc from "../../ui/HeaderDesc";
+import JSONtoString from "../../utils/JSONToString";
 
 const AbsaEngine = () => {
-  const [response, setResponse] = useState({});
-  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
+  const [review, setReview] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [engine, setEngine] = useState("spacy");
 
@@ -16,9 +17,14 @@ const AbsaEngine = () => {
 
     try {
       const result = await axios.get(`http://localhost:8000/${engine}_absa`, {
-        params: { prompt },
+        params: { review },
       });
-      setResponse(result);
+
+      if (engine === "spacy") {
+        setResponse(JSONtoString(result.data));
+      } else {
+        setResponse(result.data);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -37,8 +43,8 @@ const AbsaEngine = () => {
         <h2>Enter your prompt</h2>
         <Form.Field>
           <TextArea
-            value={prompt}
-            onChange={event => setPrompt(event.target.value)}
+            value={review}
+            onChange={event => setReview(event.target.value)}
             className="text-area"
           />
         </Form.Field>
@@ -59,10 +65,10 @@ const AbsaEngine = () => {
         </Button>
       </Form>
 
-      {response.data && (
+      {response && (
         <div className="results-container">
           <h2>Results</h2>
-          <div className="display-linebreak ">{response.data}</div>
+          <div className="display-linebreak ">{response}</div>
         </div>
       )}
     </Container>
