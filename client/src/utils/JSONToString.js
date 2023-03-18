@@ -1,8 +1,8 @@
-const JSONtoString = dataObj =>
+const JSONToString = dataObj =>
   dataObj
     .map(aspect => {
       return `Aspect: ${aspect.aspect}, Descriptor: ${aspect.description}, Polarity: ${aspect.polarity}`;
     })
     .join("\n\n");
 
-export default JSONtoString;
+export default JSONToString;

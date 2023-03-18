@@ -3,7 +3,7 @@ import { useState } from "react";
 import "../AbsaEngine/AbsaEngine.css";
 import { Button, Form, TextArea, Container, Select } from "semantic-ui-react";
 import HeaderDesc from "../../ui/HeaderDesc";
-import JSONtoString from "../../utils/JSONToString";
+import JSONToString from "../../utils/JSONToString";
 
 const AbsaEngine = () => {
   const [response, setResponse] = useState("");
@@ -21,7 +21,7 @@ const AbsaEngine = () => {
       });
 
       if (engine === "spacy") {
-        setResponse(JSONtoString(result.data));
+        setResponse(JSONToString(result.data));
       } else {
         setResponse(result.data);
       }
