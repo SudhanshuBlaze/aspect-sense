@@ -6,25 +6,43 @@ AspectSense is a web-based aspect-based sentiment analysis tool that scrapes cus
 
 The main goal of AspectSense is to provide a user-friendly interface to analyze customer reviews of a particular business or location. The tool extracts aspects, descriptors, and polarity of the customer reviews and presents them in an easily readable format. This information can be useful for businesses to understand customer opinions and make improvements to their offerings.
 
+![Image](https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs11042-022-13023-7/MediaObjects/11042_2022_13023_Fig1_HTML.png)
+Image Credits: [Springer](https://link.springer.com/article/10.1007/s11042-022-13023-7)
+
 ## Project Setup
 
-- Clone the repository to your local machine:
+### Pre-requisites
+
+- git
+- pip3
+
+`Step 1:` Clone this repository
 
 ```bash
-git clone https://github.com/SudhanshuBlaze/AspectSense.git
+git clone <repository>
+```
+
+`Step 2:` Change the work dir
+
+```bash
+cd <repository>
 ```
 
 ### Server Setup
 
-- Navigate to the /server directory and install the dependencies:
+`Step 1:` Navigate to the /server directory:
 
 ```bash
-pip install -r requirements.txt
+cd server
 ```
 
-- Start the FastAPI server by navigating to the /server directory and running
+`Step 2:` Install requirements
 
-`Step 4:` Add API key
+```bash
+pip3 install -r requirements.txt
+```
+
+`Step 3:` Add API key
 
 - Generate OpenAI api key from [OpenAI](https://openai.com/api/)
 - Create `.env` file in the server directory
@@ -32,21 +50,29 @@ pip install -r requirements.txt
 - `OPENAI_API_KEY=<your_api_key>`
 - `OPENAI_MODEL_ENGINE=<your_model_engine>`
 
+`Step 4:` Run the server in debug mode
+
 ```bash
-uvicorn app:app --reload.
+uvicorn app:app --debug
 ```
 
 - The server should be available at http://localhost:8000.
 
 ### Client Setup
 
-- Navigate to the /client directory and install the dependencies:
+`Step 1:` Navigate to the /client directory:
+
+```bash
+cd client
+```
+
+`Step 2:`install the dependencies:
 
 ```bash
 npm install
 ```
 
-- Start the React client by navigating to the /client directory and running
+`Step 3:` Start the React client by navigating to the /client directory and running
 
 ```bash
 npm start
