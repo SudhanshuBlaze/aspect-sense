@@ -3,7 +3,7 @@ from utils import *
 
 router = APIRouter()
 
-@router.get('/absa_engine')
+@router.get('/spacy_absa')
 def absa_engine(review:str):
     '''
     Aspect-based sentiment analysis (ABSA) of a single review using NLP technique.

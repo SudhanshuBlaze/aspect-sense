@@ -1,15 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import "../AbsaEngine/AbsaEngine.css";
-import {
-  Button,
-  Form,
-  TextArea,
-  Container,
-  Select,
-  Segment,
-  Header,
-} from "semantic-ui-react";
+import { Button, Form, TextArea, Container, Select } from "semantic-ui-react";
 import HeaderDesc from "../../ui/HeaderDesc";
 
 const AbsaEngine = () => {
@@ -32,10 +24,6 @@ const AbsaEngine = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleEngineChange = (event, data) => {
-    setEngine(data.value);
   };
 
   return (
@@ -62,7 +50,7 @@ const AbsaEngine = () => {
               { key: "gpt", text: "GPT-3 ABSA", value: "gpt" },
             ]}
             value={engine}
-            onChange={handleEngineChange}
+            onChange={(_, data) => setEngine(data.value)}
           />
         </Form.Field>
 
