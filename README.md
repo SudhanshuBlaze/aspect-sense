@@ -24,7 +24,13 @@ pip install -r requirements.txt
 
 - Start the FastAPI server by navigating to the /server directory and running
 
+`Step 4:` Add API key
+
 - Generate OpenAI api key from [OpenAI](https://openai.com/api/)
+- Create `.env` file in the server directory
+- Add api key in the below format
+- `OPENAI_API_KEY=<your_api_key>`
+- `OPENAI_MODEL_ENGINE=<your_model_engine>`
 
 ```bash
 uvicorn app:app --reload.
