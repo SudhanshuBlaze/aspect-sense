@@ -20,17 +20,15 @@ const AbsaEngine = () => {
         params: { review },
       });
 
-      if (engine === "spacy") {
-        setResponse(JSONToString(result.data));
-      } else {
-        setResponse(result.data);
-      }
+      setResponse(result.data);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  console.log("response", response);
 
   return (
     <Container className="container">
@@ -68,7 +66,7 @@ const AbsaEngine = () => {
       {response && (
         <div className="results-container">
           <h2>Results</h2>
-          <div className="display-linebreak ">{response}</div>
+          <div className="display-linebreak ">{JSONToString(response)}</div>
         </div>
       )}
     </Container>
