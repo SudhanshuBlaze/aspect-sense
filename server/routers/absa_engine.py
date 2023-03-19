@@ -17,6 +17,6 @@ def absa_engine(review:str):
         aspect = pair['aspect']
         description = pair['description']
         polarity = absa[1][i]['polarity']
-        merged_output.append({'aspect': aspect, 'description': description, 'polarity': polarity})
+        merged_output.append({'aspect': aspect, 'descriptor': description, 'polarity': polarity})
 
     return merged_output
