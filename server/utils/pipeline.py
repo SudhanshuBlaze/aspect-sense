@@ -13,8 +13,7 @@ def pipeline(url: str) -> pd.DataFrame:
     df_reviews["segmented_reviews"]=df_reviews['reviews'].apply(segment_review) #segmenting the reviews
     print(df_reviews.head())
 
-    aspect_with_description=[]
-    aspect_with_polarity=[]
+    aspect_with_description, aspect_with_polarity=[], []
 
     for each_tuple in df_reviews['segmented_reviews'].apply(analysis_with_spacy): #aspect, descriptor and polarity extraction
         aspect_with_description.append(each_tuple[0])
