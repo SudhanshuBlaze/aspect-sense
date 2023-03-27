@@ -27,8 +27,7 @@ def generate_word_cloud_img(words: List[str]) -> str:
     return f"data:image/png;base64,{base64_image}"
 
 def get_word_cloud(df_reviews: pd.DataFrame) -> Dict[str, str]:
-    positive_words=[]
-    negative_words=[]
+    positive_words, negative_words=[], []
 
     for inner_list in df_reviews["aspect_with_polarity"]:
         for dic in inner_list:

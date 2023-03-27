@@ -38,8 +38,7 @@ def review_scrapper(url: str) -> pd.DataFrame:
     rating_span = browser.find_elements(by=By.CLASS_NAME, value="kvMYJc")
 
     # Code for aggregating reviews and ratings
-    reviews_arr: List[str] = []
-    ratings_arr: List[str] = []
+    reviews_arr, ratings_arr= [], []
     for i in range(len(review_span)):
         if len(review_span[i].text) != 0:
             # putting reviews in reviews_arr
