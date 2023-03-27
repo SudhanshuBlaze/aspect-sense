@@ -21,8 +21,7 @@ browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), opt
 
 def review_scrapper(url: str) -> pd.DataFrame:
     browser.get(url)
-    num_of_reviews = browser.find_element(By.XPATH,
-                                           '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div[2]/div[2]').text.split(" ")[0]
+    num_of_reviews = browser.find_element(By.XPATH,'/html/body/div[3]/div[9]/div[9]/div/div/div[1]/div[2]/div/div[1]/div/div/div[3]/div[2]/div/div[2]/div[2]').text.split(" ")[0]
 
     # Find scroll layout
     scrollable_div = browser.find_element(By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]')
