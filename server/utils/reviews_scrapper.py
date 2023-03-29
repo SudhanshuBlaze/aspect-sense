@@ -14,15 +14,22 @@ options.add_argument('-headless')
 options.add_argument('-no-sandbox')
 options.add_argument('-disable-dev-shm-usage')
 
+options.add_argument('--disable-extensions')
+options.add_argument('--disable-gpu')
+options.add_argument('--disable-infobars')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--disable-browser-side-navigation')
+options.add_argument('--disable-blink-features=AutomationControlled')
+
 
 # initializing the webdriver
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-
 def review_scrapper(url: str) -> pd.DataFrame:
     browser.get(url)
     num_of_reviews = browser.find_element(By.XPATH,
-                                           '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div[2]/div[2]').text.split(" ")[0]
+                                           '/html/body/div[3]/div[9]/div[9]/div/div/div[1]/div[2]/div/div[1]/div/div/div[3]/div[2]/div/div[2]/div[2]').text.split(" ")[0]
+    
 
     # Find scroll layout
     scrollable_div = browser.find_element(By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]')
@@ -44,7 +51,8 @@ def review_scrapper(url: str) -> pd.DataFrame:
             # putting reviews in reviews_arr
             reviews_arr.append(review_span[i].text)
             # putting ratings in ratings_arr
-            ratings = rating_span[i].get_attribute("aria-label").split(" ")[1]
+            ratings = rating_span[i].get_attribute("aria-label").split(" ")[0]
+            print("print ratings", ratings)
             if int(ratings) > 3:
                 ratings_arr.append("Positive")
             else:

@@ -6,6 +6,8 @@ import base64
 from typing import List, Dict
 
 def generate_word_cloud_img(words: List[str]) -> str:
+    if len(words) == 0:
+        return ""
     wordcloud = WordCloud(width=800, height=800, 
                     background_color='white', 
                     stopwords=None, 
