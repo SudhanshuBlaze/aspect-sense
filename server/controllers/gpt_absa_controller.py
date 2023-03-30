@@ -27,17 +27,22 @@ def gpt_absa_controller(review: str):
     '''
     Generates an aspect-based sentiment analysis (ABSA) response using OpenAI's GPT-3 language model.
     '''
-    completion = openai.Completion.create(
-        engine=model_engine,
-        prompt= f"{ABSA_PROMPT} \n {review}",
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
 
-    response = completion.choices[0].text
-    raw_json = response.strip()
-    json_data = loads(raw_json)
+    try:
+        completion = openai.Completion.create(
+            engine=model_engine,
+            prompt= f"{ABSA_PROMPT} \n {review}",
+            max_tokens=1024,
+            n=1,
+            stop=None,
+            temperature=0.5,
+        )
 
-    return json_data
+        response = completion.choices[0].text
+        raw_json = response.strip()
+        json_data = loads(raw_json)
+        return json_data
+    
+    except Exception as e:
+        print(e)
+        return None

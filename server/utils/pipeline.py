@@ -6,10 +6,6 @@ def pipeline(url: str) -> pd.DataFrame:
     
     df_reviews['reviews']=df_reviews['reviews'].apply(text_process) #cleaning the reviews
 
-    if type(df_reviews)!=pd.core.frame.DataFrame:
-        df_reviews=df_reviews.to_frame()
-    
-
     df_reviews["segmented_reviews"]=df_reviews['reviews'].apply(segment_review) #segmenting the reviews
     print(df_reviews.head())
 
