@@ -3,6 +3,7 @@ import openai
 from json import loads
 from os import getenv
 from textwrap import dedent
+from fastapi import HTTPException
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -44,5 +45,5 @@ def gpt_absa_controller(review: str):
         return json_data
     
     except Exception as e:
-        print(e)
-        return None
+        error_msg = f"An error occurred while generating the ABSA response: {str(e)}"
+        raise HTTPException(status_code=500, detail=error_msg)
