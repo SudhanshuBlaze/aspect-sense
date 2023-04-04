@@ -14,3 +14,4 @@ def text_process(review: str) -> str:
     
     expanded_text = contractions.fix(lemmatized_text_str, slang=True)
     return expanded_text
+

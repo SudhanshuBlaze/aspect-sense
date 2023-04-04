@@ -16,7 +16,7 @@ model_engine = getenv("OPENAI_MODEL_ENGINE")
 ABSA_PROMPT = dedent(
         f"""
         fetch out aspect, descriptor and polarity of each aspect from the following sentence. The polarity should be in the range of 1 to 10. 
-        Output format in JSON. 
+        Output format in JSON
         Example json format: 
         
         [{{"aspect": "food", "descriptor": "delicious", "polarity": 10}}, 
@@ -28,11 +28,11 @@ def gpt_absa_controller(review: str):
     '''
     Generates an aspect-based sentiment analysis (ABSA) response using OpenAI's GPT-3 language model.
     '''
-
+    print(review)
     try:
         completion = openai.Completion.create(
             engine=model_engine,
-            prompt= f"{ABSA_PROMPT} \n {review}",
+            prompt= f"{ABSA_PROMPT} \n '{review}'",
             max_tokens=1024,
             n=1,
             stop=None,

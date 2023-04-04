@@ -52,7 +52,7 @@ def review_scrapper(url: str) -> pd.DataFrame:
             reviews_arr.append(review_span[i].text)
             # putting ratings in ratings_arr
             ratings = rating_span[i].get_attribute("aria-label").split(" ")[0]
-            print("print ratings", ratings)
+
             if int(ratings) > 3:
                 ratings_arr.append("Positive")
             else:
