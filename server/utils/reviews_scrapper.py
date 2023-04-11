@@ -1,5 +1,4 @@
 import time
-from typing import List, Tuple
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -25,22 +24,31 @@ options.add_argument('--disable-blink-features=AutomationControlled')
 # initializing the webdriver
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
+def scrolling(counter):
+    print('scrolling...')
+    scrollable_div = browser.find_elements(by=By.XPATH, value='//div[@class="lXJj5c Hk4XGb "]')
+    for _i in range(counter):
+        scrolling = browser.execute_script(
+            'document.getElementsByClassName("dS8AEf")[0].scrollTop = document.getElementsByClassName("dS8AEf")[0].scrollHeight',
+            scrollable_div
+        )
+        time.sleep(3)
+
+def counter():
+    result = browser.find_element(by=By.CLASS_NAME, value='jANrlb').find_element(by=By.CLASS_NAME, value='fontBodySmall').text
+    result = result.replace(',', '')
+    result = result.split(' ')
+    result = result[0].split('\n')
+    return int(int(result[0])/10)+1
+
 def review_scrapper(url: str) -> pd.DataFrame:
     browser.get(url)
-    num_of_reviews = browser.find_element(By.XPATH,
-                                           '/html/body/div[3]/div[9]/div[9]/div/div/div[1]/div[2]/div/div[1]/div/div/div[3]/div[2]/div/div[2]/div[2]').text.split(" ")[0]
-    
 
-    # Find scroll layout
-    scrollable_div = browser.find_element(By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]')
-
-    # Scroll as many times as necessary to load all reviews
-    num_of_scroll = round(int(num_of_reviews) / 10 - 1)
-    for i in range(num_of_scroll):
-        browser.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight', scrollable_div)
-        time.sleep(2)
+    num_of_scrolls=counter()  # get the number of scrolls by getting the count of num of reviews
+    scrolling(3)  # scroll 'n' times, you can change it to any number
 
     # Find all reviews
+    print('getting reviews...')
     review_span = browser.find_elements(by=By.CLASS_NAME, value="wiI7pd")
     rating_span = browser.find_elements(by=By.CLASS_NAME, value="kvMYJc")
 
@@ -50,6 +58,7 @@ def review_scrapper(url: str) -> pd.DataFrame:
         if len(review_span[i].text) != 0:
             # putting reviews in reviews_arr
             reviews_arr.append(review_span[i].text)
+
             # putting ratings in ratings_arr
             ratings = rating_span[i].get_attribute("aria-label").split(" ")[0]
 
@@ -60,3 +69,11 @@ def review_scrapper(url: str) -> pd.DataFrame:
 
     df_reviews = pd.DataFrame(list(zip(reviews_arr, ratings_arr)), columns=['reviews', 'ratings'])
     return df_reviews
+
+
+
+if __name__ == "__main__":
+    demo_url="https://www.google.co.in/maps/place/Konark+Sun+Temple/@19.8876003,86.0923477,17z/data=!4m8!3m7!1s0x3a19f2a097819bbf:0xed9983ca391e3247!8m2!3d19.8875953!4d86.0945364!9m1!1b1!16s%2Fm%2F02rd_67"
+
+    print('starting...')
+    review_scrapper(demo_url)
