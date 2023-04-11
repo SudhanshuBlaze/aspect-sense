@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('agg') # By setting the backend to 'agg', we create plots in a headless environment or in a background process, without the need for a graphical display.
+
 import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt

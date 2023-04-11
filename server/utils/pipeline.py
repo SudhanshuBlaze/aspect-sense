@@ -2,7 +2,9 @@ import pandas as pd
 from utils import *
 
 def pipeline(url: str) -> pd.DataFrame:
-    df_reviews=review_scrapper(url)
+    # df_reviews=review_scrapper(url)
+    scraper=ReviewsScraper(url)
+    df_reviews=scraper.scrape_reviews()
     
     df_reviews['reviews']=df_reviews['reviews'].apply(text_process) #cleaning the reviews
 
@@ -18,7 +20,5 @@ def pipeline(url: str) -> pd.DataFrame:
     #add new columns with aspects
     df_reviews['aspect_with_description']=aspect_with_description
     df_reviews['aspect_with_polarity']=aspect_with_polarity
-    print(df_reviews.head())
-    print(df_reviews['aspect_with_description'])
-    print(df_reviews['aspect_with_polarity'])
+
     return df_reviews
