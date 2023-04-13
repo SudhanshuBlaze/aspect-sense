@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('agg') # By setting the backend to 'agg', we create plots in a headless environment or in a background process, without the need for a graphical display.
+
 import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -6,6 +9,8 @@ import base64
 from typing import List, Dict
 
 def generate_word_cloud_img(words: List[str]) -> str:
+    if len(words) == 0:
+        return ""
     wordcloud = WordCloud(width=800, height=800, 
                     background_color='white', 
                     stopwords=None, 
@@ -27,8 +32,7 @@ def generate_word_cloud_img(words: List[str]) -> str:
     return f"data:image/png;base64,{base64_image}"
 
 def get_word_cloud(df_reviews: pd.DataFrame) -> Dict[str, str]:
-    positive_words=[]
-    negative_words=[]
+    positive_words, negative_words=[], []
 
     for inner_list in df_reviews["aspect_with_polarity"]:
         for dic in inner_list:

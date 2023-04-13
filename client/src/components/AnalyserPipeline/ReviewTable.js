@@ -25,10 +25,10 @@ const ReviewTable = ({ data }) => {
                 <Table.Cell>{row.ratings}</Table.Cell>
                 <Table.Cell>[{row.segmented_reviews.toString()}]</Table.Cell>
                 <Table.Cell>
-                  [{JSON.stringify(row.aspect_with_description)}]
+                  {JSON.stringify(row.aspect_with_description)}
                 </Table.Cell>
                 <Table.Cell>
-                  [{JSON.stringify(row.aspect_with_polarity)}]
+                  {JSON.stringify(row.aspect_with_polarity)}
                 </Table.Cell>
               </Table.Row>
             ))}

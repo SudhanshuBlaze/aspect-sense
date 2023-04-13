@@ -33,7 +33,7 @@ const AbsaEngine = () => {
   return (
     <Container className="container">
       <HeaderDesc
-        header="Single Review ABSA Engine. results."
+        header="Single Review ABSA Engine"
         description="This tool allows you to perform aspect-based sentiment analysis (ABSA) on a single review. Simply enter your review text and select the language model you want to use: GPT or spaCy. The tool will identify the different aspects and descriptors mentioned in the review andtheir associated sentiment scores."
       />
 
