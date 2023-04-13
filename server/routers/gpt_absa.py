@@ -21,6 +21,17 @@ ABSA_PROMPT = dedent(
         
         [{{"aspect": "food", "descriptor": "delicious", "polarity": 10}}, 
         {{"aspect": "toilets", "descriptor": "not clean", "polarity": 1}}]
+
+        Example process of generating the above json format from a given text:
+
+        This product is good but the battery doesn't last. It's lightweight and very easy to use. Well worth the money.
+            [
+            {{ "aspect": "Overall satisfaction", "segment": "This product is good", "sentiment": "positive" }},
+            {{ "aspect": "Battery", "segment": "the battery doesn't last", "sentiment": "negative" }},
+            {{ "aspect": "Weight", "segment": "It's lightweight", "sentiment": "positive" }},
+            {{ "aspect": "Usability", "segment": "very easy to use", "sentiment": "positive" }},
+            {{ "aspect": "Value for money", "segment": "Well worth the money", "sentiment": "positive" }}
+            ]
         """
         )
 
