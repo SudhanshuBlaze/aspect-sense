@@ -4,6 +4,6 @@ from controllers import absa_pipeline_controller
 router = APIRouter()
 
 @router.get('/scrapper_pipeline')
-def absa_pipeline(url:str):
-    return absa_pipeline_controller(url)
+def absa_pipeline(location:str):
+    return absa_pipeline_controller(location)
     
