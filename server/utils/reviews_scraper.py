@@ -79,7 +79,15 @@ class ReviewsScraper:
 if __name__ == "__main__":
     demo_url="https://www.google.co.in/maps/place/Konark+Sun+Temple/@19.8876003,86.0923477,17z/data=!4m8!3m7!1s0x3a19f2a097819bbf:0xed9983ca391e3247!8m2!3d19.8875953!4d86.0945364!9m1!1b1!16s%2Fm%2F02rd_67"
     scraper = ReviewsScraper(demo_url)
-    df_reviews = scraper.scrape_reviews()
-    print("Reviews collected", len(df_reviews))
-
     
+    # n_reviews_list = [100, 500, 1000]
+    # times = []
+
+
+    start_time = time.time()
+    df_reviews = scraper.scrape_reviews(300)
+    end_time = time.time()
+    print(f"Reviews collected: {len(df_reviews)}, Time taken: {end_time - start_time} seconds")
+
+
+        
