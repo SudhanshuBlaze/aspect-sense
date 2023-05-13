@@ -10,6 +10,7 @@ The goal of the project is to scrape google maps reviews for given location(rest
 
 - git
 - pip3
+- docker desktop
 
 `Step 1:` Clone this repository
 
@@ -37,7 +38,13 @@ pip3 install -r requirements.txt
 - `OPENAI_API_KEY=<your_api_key>`
 - `OPENAI_MODEL_ENGINE=<your_model_engine>`
 
-`Step 4:` Run the server in debug mode
+`Step 5:` Start MongoDB in the docker container
+
+```bash
+docker-compose -f mongodb-docker.yml up -d
+```
+
+`Step 6:` Run the server in debug mode
 
 ```bash
 uvicorn app:app --debug
