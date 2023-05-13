@@ -11,7 +11,15 @@ router = APIRouter()
 db = Database().db
 
 # Load spaCy model
-nlp = spacy.load('en_core_web_lg')
+# nlp = spacy.load('en_core_web_md')
+
+try:
+    nlp = spacy.load('en_core_web_md')
+except OSError:
+    print('Downloading language model for the spaCy POS tagger\n'"(don't worry, this will only happen once)")
+    from spacy.cli import download
+    download('en_core_web_md')
+    nlp = spacy.load('en_core_web_md')
 
 def semantic_search_controller(location: str, keyword: str) -> List[str]:
     try:
