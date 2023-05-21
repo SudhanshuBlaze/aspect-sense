@@ -1,12 +1,15 @@
 from utils import *
 from fastapi import HTTPException
+from database.queries.get_reviews import get_reviews
+
 
 def absa_pipeline_controller(location:str):
     '''
     This endpoint performs a pipeline of operations for a given URL of a location on Google Maps. It first scrapes the reviews of the location from Google Maps using the provided URL. It then applies aspect-based sentiment analysis (ABSA) on each of the scraped reviews using a pre-trained spaCy model. The result of the ABSA is returned as a JSON object containing information on the aspects of the review and their corresponding sentiment polarity.
     '''
     try:
-        df_reviews=pipeline(location)
+        review_list=get_reviews(location)
+        df_reviews=pipeline(review_list)
         json_reviews=df_reviews.to_json(orient="records")
 
         wordcloud_image_dict=get_word_cloud(df_reviews)

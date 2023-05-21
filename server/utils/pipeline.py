@@ -3,10 +3,9 @@ from utils import *
 from database.queries.get_reviews import get_reviews
 
 
-def pipeline(location: str) -> pd.DataFrame:
+def pipeline(review_list: list) -> pd.DataFrame:
     # scraper=ReviewsScraper(url)
     # df_reviews=scraper.scrape_reviews()
-    review_list=get_reviews(location)
     df_reviews = pd.DataFrame({"reviews": review_list}).dropna()
     
     df_reviews['reviews']=df_reviews['reviews'].apply(text_process) #cleaning the reviews
