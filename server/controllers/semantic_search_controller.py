@@ -10,8 +10,14 @@ router = APIRouter()
 
 db = Database().db
 
-# Load spaCy model
-nlp = spacy.load('en_core_web_lg')
+# Load spaCy model with fallback to medium/small if large is not present
+try:
+    nlp = spacy.load('en_core_web_lg')
+except Exception:
+    try:
+        nlp = spacy.load('en_core_web_md')
+    except Exception:
+        nlp = spacy.load('en_core_web_sm')
 
 def semantic_search_controller(location: str, keyword: str) -> List[str]:
     try:

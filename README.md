@@ -26,38 +26,46 @@ git clone <repository>
 `Step 2:` Change the work dir
 
 ```bash
-cd <repository>
+### Quick Start (Entire Application)
+
+Run the unified startup script from the root directory to initialize virtual environments, install dependencies, and launch both the backend server and React frontend automatically:
+
+```bash
+./start.sh
 ```
 
-### Server Setup
+- **Backend FastAPI Server**: `http://localhost:8000`
+- **React Frontend Client**: `http://localhost:3000`
 
-`Step 1:` Navigate to the /server directory:
+---
+
+### Manual Setup
+
+#### Server Setup
+
+`Step 1:` Navigate to the `/server` directory:
 
 ```bash
 cd server
 ```
 
-`Step 2:` Install requirements
+`Step 2:` Run setup & start script (automatically creates `.venv`, installs requirements, and launches server):
 
 ```bash
-pip3 install -r requirements.txt
+./start_server.sh
 ```
 
-`Step 3:` Add API key
-
-- Generate OpenAI api key from [OpenAI](https://openai.com/api/)
-- Create `.env` file in the server directory
-- Add api key in the below format
-- `OPENAI_API_KEY=<your_api_key>`
-- `OPENAI_MODEL_ENGINE=<your_model_engine>`
-
-`Step 4:` Run the server in debug mode
+*Or manually:*
 
 ```bash
-uvicorn app:app --debug
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app:app --reload
 ```
 
-- The server should be available at http://localhost:8000.
+- The server will be available at http://localhost:8000.
+- **Note**: AspectSense runs completely offline with free, open-source models (Hugging Face Transformers / spaCy). No OpenAI API keys are required.
 
 ### Client Setup
 

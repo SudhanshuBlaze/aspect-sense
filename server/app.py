@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database.database import Database
 import uvicorn
-from routers import gpt_absa, absa_pipeline, absa_engine , semantic_search
+from routers import gpt_absa, hf_absa, absa_pipeline, absa_engine , semantic_search
 
 app = FastAPI()
 origins = ["*"]
@@ -13,6 +13,7 @@ app.add_middleware(
 )
 
 app.include_router(absa_engine, tags=["single_review"])
+app.include_router(hf_absa, tags=["single_review"])
 app.include_router(gpt_absa, tags=["single_review"])
 app.include_router(absa_pipeline, tags=["scrapper_pipeline"])
 app.include_router(semantic_search, tags=["semantic_search"])

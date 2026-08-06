@@ -130,3 +130,9 @@ dmypy.json
 
 /client/node_modules
 .DS_Store
+
+# Databases & Logs
+*.db
+*.sqlite3
+server/background_scraper.log
+

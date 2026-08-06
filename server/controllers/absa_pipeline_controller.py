@@ -1,3 +1,4 @@
+import pandas as pd
 from utils import *
 from fastapi import HTTPException
 
@@ -22,3 +23,30 @@ def absa_pipeline_controller(location:str):
     except Exception as e:
         error_msg = f"An error occurred while processing the request: {str(e)}"
         raise HTTPException(status_code=500, detail=error_msg)
+
+
+def absa_pipeline_stream_controller(location: str):
+    """
+    Generator streaming Server-Sent Events (SSE) chunks containing parsed reviews and word clouds as reviews are scraped.
+    """
+    import json
+    try:
+        accumulated_dfs = []
+        for df_batch in pipeline_stream(location):
+            if df_batch is not None and not df_batch.empty:
+                accumulated_dfs.append(df_batch)
+                combined_df = pd.concat(accumulated_dfs, ignore_index=True)
+                
+                wordcloud_dict = get_word_cloud(combined_df)
+                batch_records = json.loads(df_batch.to_json(orient="records"))
+
+                chunk = {
+                    "batch": batch_records,
+                    "positive_wordcloud": wordcloud_dict.get("positive_wordcloud", ""),
+                    "negative_wordcloud": wordcloud_dict.get("negative_wordcloud", "")
+                }
+                yield f"data: {json.dumps(chunk)}\n\n"
+    except Exception as e:
+        print(f"Error in stream controller: {str(e)}")
+        yield f"data: {json.dumps({'error': str(e)})}\n\n"
+

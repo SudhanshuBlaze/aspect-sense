@@ -23,24 +23,20 @@ git clone <repository>
 cd <repository>
 ```
 
-`Step 3:` Install requirements
+`Step 3:` Run automated start script (creates `.venv`, installs dependencies, and starts server):
 
 ```bash
-pip3 install -r requirements.txt
+./start_server.sh
 ```
 
-`Step 4:` Add API key
-
-- Generate OpenAI api key from [OpenAI](https://openai.com/api/)
-- Create `.env` file in the server directory
-- Add api key in the below format
-- `OPENAI_API_KEY=<your_api_key>`
-- `OPENAI_MODEL_ENGINE=<your_model_engine>`
-
-`Step 4:` Run the server in debug mode
+*Or manually:*
 
 ```bash
-uvicorn app:app --debug
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app:app --reload
 ```
 
-- The server should be available at http://localhost:8000.
+- The server will be available at http://localhost:8000.
+- Runs open-source Hugging Face transformer models & spaCy locally without requiring API keys.

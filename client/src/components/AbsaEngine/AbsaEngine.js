@@ -9,7 +9,7 @@ const AbsaEngine = () => {
   const [response, setResponse] = useState("");
   const [review, setReview] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [engine, setEngine] = useState("spacy");
+  const [engine, setEngine] = useState("hf");
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -34,7 +34,7 @@ const AbsaEngine = () => {
     <Container className="container">
       <HeaderDesc
         header="Single Review ABSA Engine"
-        description="This tool allows you to perform aspect-based sentiment analysis (ABSA) on a single review. Simply enter your review text and select the language model you want to use: GPT or spaCy. The tool will identify the different aspects and descriptors mentioned in the review andtheir associated sentiment scores."
+        description="This tool allows you to perform aspect-based sentiment analysis (ABSA) on a single review. Simply enter your review text and select the language model you want to use: Open-Source Hugging Face Transformer or spaCy. The tool will identify the different aspects and descriptors mentioned in the review and their associated sentiment scores."
       />
 
       <Form onSubmit={handleSubmit} className="form-container">
@@ -50,8 +50,8 @@ const AbsaEngine = () => {
           <Select
             placeholder="Select ABSA engine"
             options={[
+              { key: "hf", text: "Hugging Face (DeBERTa/RoBERTa) ABSA", value: "hf" },
               { key: "spacy", text: "Custom Spacy ABSA", value: "spacy" },
-              { key: "gpt", text: "GPT-3 ABSA", value: "gpt" },
             ]}
             value={engine}
             onChange={(_, data) => setEngine(data.value)}

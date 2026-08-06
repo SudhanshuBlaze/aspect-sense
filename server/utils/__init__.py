@@ -3,4 +3,4 @@ from .reviews_scraper import ReviewsScraper
 from .text_cleaner import text_process
 from .text_segmentation import segment_review
 from .word_cloud import get_word_cloud
-from .pipeline import pipeline
+from .pipeline import pipeline, pipeline_stream

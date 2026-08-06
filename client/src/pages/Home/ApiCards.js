@@ -7,7 +7,7 @@ const ApiCards = () => {
     {
       header: "Single Review ABSA",
       description:
-        "Performs Aspect-Based Sentiment Analysis (ABSA) for a single review using either GPT-3 or Spacy based engine. Returns the sentiment polarity and aspect category for each sentence in the review.",
+        "Performs Aspect-Based Sentiment Analysis (ABSA) for a single review using either open-source Hugging Face Transformers or Spacy based engine. Returns the sentiment polarity and aspect category for each sentence in the review.",
       route: "/single_review",
     },
     {
