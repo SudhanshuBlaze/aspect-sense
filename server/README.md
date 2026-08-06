@@ -26,7 +26,11 @@ cd <repository>
 `Step 3:` Run automated start script (creates `.venv`, installs dependencies, and starts server):
 
 ```bash
+# On macOS / Linux:
 ./start_server.sh
+
+# On Windows:
+start_server.bat
 ```
 
 *Or manually:*

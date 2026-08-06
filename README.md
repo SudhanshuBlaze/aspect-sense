@@ -30,8 +30,19 @@ git clone <repository>
 
 Run the unified startup script from the root directory to initialize virtual environments, install dependencies, and launch both the backend server and React frontend automatically:
 
+#### On macOS / Linux:
 ```bash
 ./start.sh
+```
+
+#### On Windows (Command Prompt):
+```cmd
+start.bat
+```
+
+#### On Windows (PowerShell):
+```powershell
+.\start.ps1
 ```
 
 - **Backend FastAPI Server**: `http://localhost:8000`
