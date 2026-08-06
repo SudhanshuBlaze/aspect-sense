@@ -1,123 +1,122 @@
 # AspectSense
 
-AspectSense is a web-based aspect-based sentiment analysis tool that scrapes customer reviews from a Google Maps URL and displays the results on a client-side user interface.
+AspectSense is an intelligent, full-stack Aspect-Based Sentiment Analysis (ABSA) platform. It continuously scrapes customer reviews from Google Maps locations and extracts fine-grained aspects, descriptors, and sentiment polarities using open-source NLP models.
 
-## Goals
+![AspectSense ABSA Diagram](https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs11042-022-13023-7/MediaObjects/11042_2022_13023_Fig1_HTML.png)
+*Image Credits: [Springer](https://link.springer.com/article/10.1007/s11042-022-13023-7)*
 
-The main goal of AspectSense is to provide a user-friendly interface to analyze customer reviews of a particular business or location. The tool extracts aspects, descriptors, and polarity of the customer reviews and presents them in an easily readable format. This information can be useful for businesses to understand customer opinions and make improvements to their offerings.
+---
 
-![Image](https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs11042-022-13023-7/MediaObjects/11042_2022_13023_Fig1_HTML.png)
-Image Credits: [Springer](https://link.springer.com/article/10.1007/s11042-022-13023-7)
+## Key Features
 
-## Project Setup
+- **Continuous Background Web Scraper**: Continuously scrapes reviews for active locations non-stop and stores them in local database storage.
+- **Active Locations Management**: Easily add, remove, and trigger analysis for active location presets directly from the user interface.
+- **Local ABSA Intelligence**: Powered by `cardiffnlp/twitter-roberta-base-sentiment-latest` and spaCy NLP pipeline. 100% free and open-source — no OpenAI API keys required.
+- **Dual Database Persistence**: Automatic fallback between MongoDB and local SQLite database (`reviews.db`).
+- **Interactive UI & Visualizations**: Interactive sentiment distribution charts, aspect word clouds, searchable review tables, and real-time Server-Sent Events (SSE) streaming.
 
-### Pre-requisites
+---
 
-- git
-- pip3
-- node
+## Quick Start (Entire Application)
 
-`Step 1:` Clone this repository
+Run the unified startup script from the root directory to automatically initialize virtual environments, install dependencies, and launch both the backend server and React frontend:
 
-```bash
-git clone <repository>
-```
-
-`Step 2:` Change the work dir
-
-```bash
-### Quick Start (Entire Application)
-
-Run the unified startup script from the root directory to initialize virtual environments, install dependencies, and launch both the backend server and React frontend automatically:
-
-#### On macOS / Linux:
+### On macOS / Linux:
 ```bash
 ./start.sh
 ```
 
-#### On Windows (Command Prompt):
+### On Windows (Command Prompt):
 ```cmd
 start.bat
 ```
 
-#### On Windows (PowerShell):
+### On Windows (PowerShell):
 ```powershell
 .\start.ps1
 ```
 
-- **Backend FastAPI Server**: `http://localhost:8000`
-- **React Frontend Client**: `http://localhost:3000`
+- **React Frontend**: [http://localhost:3000](http://localhost:3000)
+- **FastAPI Backend**: [http://localhost:8000](http://localhost:8000)
+- **API Docs (Swagger UI)**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-### Manual Setup
+## Manual Setup
 
-#### Server Setup
+### 1. Backend Server Setup
 
-`Step 1:` Navigate to the `/server` directory:
-
+Navigate to the `server` directory:
 ```bash
 cd server
 ```
 
-`Step 2:` Run setup & start script (automatically creates `.venv`, installs requirements, and launches server):
-
+Run the server setup script:
 ```bash
+# On macOS / Linux
 ./start_server.sh
+
+# On Windows
+start_server.bat
 ```
 
-*Or manually:*
-
+Or setup manually:
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_lg
 uvicorn app:app --reload
 ```
 
-- The server will be available at http://localhost:8000.
-- **Note**: AspectSense runs completely offline with free, open-source models (Hugging Face Transformers / spaCy). No OpenAI API keys are required.
+---
 
-### Client Setup
+### 2. Frontend Client Setup
 
-`Step 1:` Navigate to the /client directory:
-
+Navigate to the `client` directory:
 ```bash
 cd client
 ```
 
-`Step 2:`install the dependencies:
-
+Install dependencies and start the React app:
 ```bash
 npm install
-```
-
-`Step 3:` Start the React client by navigating to the /client directory and running
-
-```bash
 npm start
 ```
 
-- The client should be available at http://localhost:3000.
+---
 
-## Project Setup with Docker
+## Docker Setup
 
-- Navigate to the root directory of the project and build the Docker images:
+Build and run the entire application via Docker Compose:
 
 ```bash
+# Build Docker containers
 docker-compose build
-```
 
-- Start the containers:
-
-```bash
+# Start containers
 docker-compose up
 ```
 
-The React client should be available at http://localhost:3000 and the FastAPI server should be available at http://localhost:8000.
+- React Client: `http://localhost:3000`
+- FastAPI Server: `http://localhost:8000`
 
-## Usage
+---
 
-To use AspectSense, enter a Google Maps URL in the input field and click the "Submit" button. The tool will scrape customer reviews from the URL and display the results in a table format. The table includes columns for the customer reviews, ratings, segmented reviews, aspects with descriptions, and aspects with polarity.
+## API Endpoints Summary
 
-**Note**: The tool is intended for educational and demonstration purposes only. The scraping of customer reviews from Google Maps may be against Google's terms of service, so use this tool at your own risk.
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/scrapper_pipeline?location=<name>` | Run ABSA analysis on a location |
+| `GET` | `/stream_scrapper_pipeline?location=<name>` | Stream real-time ABSA analysis via SSE |
+| `GET` | `/active_locations` | Get active background scraping locations & database totals |
+| `POST` | `/add_active_location?location=<name>` | Add location to continuous scraping queue |
+| `POST` | `/remove_active_location?location=<name>` | Remove location from continuous scraping queue |
+| `GET` | `/background_scraper_logs` | Tail live background scraper logs |
+
+---
+
+## Disclaimer
+
+AspectSense is intended for educational and demonstration purposes only. Scraping Google Maps reviews must comply with Google's Terms of Service.
