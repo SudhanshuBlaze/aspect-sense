@@ -1,14 +1,31 @@
-version: "3"
+version: "3.8"
+
 services:
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
+    container_name: aspectsense-server
+    restart: always
     ports:
       - "8000:8000"
+    volumes:
+      - ./server/database:/app/database
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HOST=0.0.0.0
+      - PORT=8000
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: aspectsense-client
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=true
