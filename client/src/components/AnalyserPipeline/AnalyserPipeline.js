@@ -5,7 +5,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import HeaderDesc from "../../ui/HeaderDesc";
+import MenuRight from "../../pages/Home/MenuRight";
+import "../../pages/Home/Home.css";
 import "./AnalyserPipeline.css";
+
 
 const AnalyserPipeline = () => {
   const [location, setLocation] = useState("");
@@ -129,11 +132,15 @@ const AnalyserPipeline = () => {
   const storedDbCount = dbStats[activeLocKey] || dbStats[activeLocKey.toLowerCase()] || 0;
 
   return (
-    <Container className="pipeline-container">
-      <HeaderDesc
-        header="Review Scraper & Real-Time Analyser"
-        description="Enter a location query or paste a Google Maps URL to stream reviews in real time, auto-queue continuous background extraction, and store reviews permanently in the Database!"
-      />
+    <div style={{ background: "#0f172a", minHeight: "100vh" }}>
+      <Container>
+        <MenuRight />
+      </Container>
+      <Container className="pipeline-container">
+        <HeaderDesc
+          header="Review Scraper & Real-Time Analyser"
+          description="Enter a location query or paste a Google Maps URL to stream reviews in real time, auto-queue continuous background extraction, and store reviews permanently in the Database."
+        />
 
       <InputField
         handleSubmit={handleSubmit}
@@ -149,23 +156,27 @@ const AnalyserPipeline = () => {
       {location && (
         <div style={{
           margin: "1rem 0",
-          padding: "0.75rem 1.25rem",
-          borderRadius: "8px",
-          backgroundColor: "#eff6ff",
-          border: "1px solid #bfdbfe",
-          color: "#1e40af",
+          padding: "0.9rem 1.35rem",
+          borderRadius: 12,
+          background: "rgba(99,102,241,0.18)",
+          border: "1px solid rgba(99,102,241,0.35)",
+          color: "#e0e7ff",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          fontSize: "0.92rem",
+          fontWeight: 700,
         }}>
-          <div>
-            <strong>⚡ Continuous Active Location Scraper:</strong> Monitoring <em>"{location}"</em>.
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#6366f1", boxShadow: "0 0 8px #6366f1", display: "inline-block" }} />
+            Continuously monitoring <em style={{ marginLeft: 6, color: "#ffffff", fontStyle: "normal", fontWeight: 800 }}>"{location}"</em>
           </div>
-          <div style={{ fontWeight: 600 }}>
-            {storedDbCount > 0 ? `💾 ${storedDbCount} total reviews in DB` : "🔄 Extracting reviews to DB..."}
+          <div style={{ color: storedDbCount > 0 ? "#a5b4fc" : "#34d399", fontWeight: 800, fontSize: "0.92rem" }}>
+            {storedDbCount > 0 ? `💾 ${storedDbCount} reviews in DB` : "⚡ Extracting to DB…"}
           </div>
         </div>
       )}
+
 
       {isLoading && (
         <div className="streaming-status-bar">
@@ -179,11 +190,13 @@ const AnalyserPipeline = () => {
         </div>
       )}
 
-      <ReviewTable data={data} />
+        <ReviewTable data={data} />
 
-      <WordCloud data={data} />
-    </Container>
+        <WordCloud data={data} />
+      </Container>
+    </div>
   );
 };
 
 export default AnalyserPipeline;
+
