@@ -22,21 +22,22 @@ free_port() {
 }
 
 # 1. Setup Server Virtual Environment & Dependencies
-echo "[1/3] Setting up Python virtual environment for backend..."
+echo "[1/3] Checking Python virtual environment for backend..."
 if [ ! -d "$SERVER_DIR/.venv" ]; then
     echo "Creating .venv in $SERVER_DIR..."
     python3 -m venv "$SERVER_DIR/.venv"
+    source "$SERVER_DIR/.venv/bin/activate"
+    echo "Installing backend requirements..."
+    pip install --upgrade pip setuptools wheel --quiet
+    pip install -r "$SERVER_DIR/requirements.txt" --quiet
+    echo "Downloading spaCy models..."
+    python -m spacy download en_core_web_sm > /dev/null 2>&1 || true
+    python -m spacy download en_core_web_lg > /dev/null 2>&1 || true
+else
+    echo "Virtual environment .venv already exists. Skipping dependency installation."
+    source "$SERVER_DIR/.venv/bin/activate"
 fi
 
-source "$SERVER_DIR/.venv/bin/activate"
-
-echo "Installing/verifying backend requirements..."
-pip install --upgrade pip setuptools wheel --quiet
-pip install -r "$SERVER_DIR/requirements.txt" --quiet
-
-# Ensure spaCy models are downloaded
-python -m spacy download en_core_web_sm > /dev/null 2>&1 || true
-python -m spacy download en_core_web_lg > /dev/null 2>&1 || true
 
 # Function to clean up background processes on Ctrl+C or script exit
 cleanup() {

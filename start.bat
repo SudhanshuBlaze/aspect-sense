@@ -10,21 +10,22 @@ SET "SERVER_DIR=%ROOT_DIR%server"
 SET "CLIENT_DIR=%ROOT_DIR%client"
 
 :: 1. Setup Python Virtual Environment & Dependencies
-echo [1/3] Setting up Python virtual environment for backend...
+echo [1/3] Checking Python virtual environment for backend...
 if not exist "%SERVER_DIR%\.venv" (
     echo Creating .venv in %SERVER_DIR%...
     python -m venv "%SERVER_DIR%\.venv"
+    call "%SERVER_DIR%\.venv\Scripts\activate.bat"
+    echo Installing backend requirements...
+    python -m pip install --upgrade pip setuptools wheel --quiet
+    pip install -r "%SERVER_DIR%\requirements.txt" --quiet
+    echo Downloading spaCy models...
+    python -m spacy download en_core_web_sm >nul 2>&1
+    python -m spacy download en_core_web_lg >nul 2>&1
+) else (
+    echo Virtual environment .venv already exists. Skipping dependency installation.
+    call "%SERVER_DIR%\.venv\Scripts\activate.bat"
 )
 
-call "%SERVER_DIR%\.venv\Scripts\activate.bat"
-
-echo Installing/verifying backend requirements...
-python -m pip install --upgrade pip setuptools wheel --quiet
-pip install -r "%SERVER_DIR%\requirements.txt" --quiet
-
-echo Verifying spaCy models...
-python -m spacy download en_core_web_sm >nul 2>&1
-python -m spacy download en_core_web_lg >nul 2>&1
 
 :: 2. Free Port 8000 and Start FastAPI Backend Server
 echo [2/3] Starting FastAPI backend server on http://localhost:8000 ...

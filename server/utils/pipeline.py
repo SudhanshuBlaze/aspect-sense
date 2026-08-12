@@ -110,9 +110,10 @@ def process_review_batch(batch_reviews: list, location: str = None) -> pd.DataFr
     df_batch["segmented_reviews"] = df_batch['reviews'].apply(segment_review)
 
     aspect_desc, aspect_pol = [], []
-    for each_tuple in df_batch['segmented_reviews'].apply(analysis_with_spacy):
-        aspect_desc.append(each_tuple[0])
-        aspect_pol.append(each_tuple[1])
+    for segments in df_batch['segmented_reviews']:
+        desc_list, pol_list = analysis_with_spacy(segments)
+        aspect_desc.append(desc_list)
+        aspect_pol.append(pol_list)
 
     df_batch['aspect_with_description'] = aspect_desc
     df_batch['aspect_with_polarity'] = aspect_pol
@@ -124,6 +125,7 @@ def process_review_batch(batch_reviews: list, location: str = None) -> pd.DataFr
             print(f"Notice saving batch to DB: {e}")
 
     return df_batch
+
 
 
 def pipeline(location: str) -> pd.DataFrame:

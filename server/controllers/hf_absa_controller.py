@@ -65,6 +65,7 @@ def hf_absa_controller(review: str) -> List[Dict[str, Any]]:
         for i, item in enumerate(aspects_info):
             aspect = item.get('aspect')
             descriptor = item.get('description')
+            category = item.get('category', 'General')
             tb_polarity = polarity_info[i].get('polarity', 0.0) if i < len(polarity_info) else 0.0
 
             if aspect and descriptor:
@@ -73,6 +74,7 @@ def hf_absa_controller(review: str) -> List[Dict[str, Any]]:
                 merged_output.append({
                     'aspect': aspect,
                     'descriptor': descriptor,
+                    'category': category,
                     'polarity': polarity_score
                 })
 
@@ -81,3 +83,4 @@ def hf_absa_controller(review: str) -> List[Dict[str, Any]]:
     except Exception as e:
         error_msg = f"An error occurred while generating the Hugging Face ABSA response: {str(e)}"
         raise HTTPException(status_code=500, detail=error_msg)
+

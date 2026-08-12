@@ -56,8 +56,19 @@ const ReviewTable = ({ data }) => {
                     {descList.length > 0 ? (
                       descList.map((item, i) => (
                         item.aspect && item.description ? (
-                          <span key={i} className="aspect-pill desc">
-                            📌 <strong>{item.aspect}</strong>: {item.description}
+                          <span key={i} className="aspect-pill desc" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                            <span style={{
+                              backgroundColor: "#e0e7ff",
+                              color: "#3730a3",
+                              fontSize: "0.7rem",
+                              padding: "2px 6px",
+                              borderRadius: "4px",
+                              fontWeight: "600",
+                              textTransform: "uppercase"
+                            }}>
+                              {item.category || "General"}
+                            </span>
+                            <span>📌 <strong>{item.aspect}</strong>: {item.description}</span>
                           </span>
                         ) : null
                       ))
@@ -75,8 +86,20 @@ const ReviewTable = ({ data }) => {
                           <span 
                             key={i} 
                             className={`aspect-pill ${isPos ? 'positive' : 'negative'}`}
+                            style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
                           >
-                            {isPos ? "👍" : "👎"} <strong>{item.aspect}</strong>: {item.polarity}
+                            <span style={{
+                              backgroundColor: isPos ? "#dcfce7" : "#fee2e2",
+                              color: isPos ? "#166534" : "#991b1b",
+                              fontSize: "0.7rem",
+                              padding: "2px 6px",
+                              borderRadius: "4px",
+                              fontWeight: "600",
+                              textTransform: "uppercase"
+                            }}>
+                              {item.category || "General"}
+                            </span>
+                            <span>{isPos ? "👍" : "👎"} <strong>{item.aspect}</strong>: {item.polarity}</span>
                           </span>
                         );
                       })
@@ -84,6 +107,7 @@ const ReviewTable = ({ data }) => {
                       <span style={{ color: "#9ca3af", fontSize: "0.85rem" }}>—</span>
                     )}
                   </Table.Cell>
+
                 </Table.Row>
               );
             })}

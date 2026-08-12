@@ -2,9 +2,6 @@
 
 AspectSense is an intelligent, full-stack Aspect-Based Sentiment Analysis (ABSA) platform. It continuously scrapes customer reviews from Google Maps locations and extracts fine-grained aspects, descriptors, and sentiment polarities using open-source NLP models.
 
-![AspectSense ABSA Diagram](https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs11042-022-13023-7/MediaObjects/11042_2022_13023_Fig1_HTML.png)
-*Image Credits: [Springer](https://link.springer.com/article/10.1007/s11042-022-13023-7)*
-
 ---
 
 ## Key Features

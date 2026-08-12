@@ -12,24 +12,21 @@ if [ -n "$pids" ]; then
     sleep 1
 fi
 
-# Create virtual environment if it does not exist
+# Create virtual environment and install dependencies if it does not exist
 if [ ! -d ".venv" ]; then
     echo "Creating virtual environment in .venv..."
     python3 -m venv .venv
+    source .venv/bin/activate
+    echo "Installing requirements inside virtual environment..."
+    pip install --upgrade pip setuptools wheel
+    pip install -r requirements.txt
+    python -m spacy download en_core_web_sm || true
+    python -m spacy download en_core_web_lg || true
+else
+    echo "Virtual environment .venv already exists. Skipping dependency installation."
+    source .venv/bin/activate
 fi
 
-# Activate virtual environment
-echo "Activating virtual environment..."
-source .venv/bin/activate
-
-# Install/verify requirements
-echo "Installing requirements inside virtual environment..."
-pip install --upgrade pip setuptools wheel
-pip install -r requirements.txt
-
-# Ensure spaCy models are installed
-python -m spacy download en_core_web_sm || true
-python -m spacy download en_core_web_lg || true
 
 # Start server in debug/reload mode inside virtual environment
 echo "Starting FastAPI server on http://localhost:8000 ..."

@@ -10,23 +10,24 @@ Write-Host "  Starting AspectSense Application (Windows)  " -ForegroundColor Cya
 Write-Host "=========================================" -ForegroundColor Cyan
 
 # 1. Python Virtual Environment
-Write-Host "[1/3] Setting up Python virtual environment for backend..." -ForegroundColor Yellow
+Write-Host "[1/3] Checking Python virtual environment for backend..." -ForegroundColor Yellow
 $VENV_DIR = Join-Path $SERVER_DIR ".venv"
-if (-not (Test-Path $VENV_DIR)) {
-    Write-Host "Creating .venv in $SERVER_DIR..."
-    python -m venv $VENV_DIR
-}
-
 $VENV_PYTHON = Join-Path $VENV_DIR "Scripts\python.exe"
 $VENV_PIP = Join-Path $VENV_DIR "Scripts\pip.exe"
 
-Write-Host "Installing/verifying backend requirements..." -ForegroundColor Yellow
-& $VENV_PYTHON -m pip install --upgrade pip setuptools wheel --quiet
-& $VENV_PIP install -r (Join-Path $SERVER_DIR "requirements.txt") --quiet
+if (-not (Test-Path $VENV_DIR)) {
+    Write-Host "Creating .venv in $SERVER_DIR..." -ForegroundColor Yellow
+    python -m venv $VENV_DIR
+    Write-Host "Installing backend requirements..." -ForegroundColor Yellow
+    & $VENV_PYTHON -m pip install --upgrade pip setuptools wheel --quiet
+    & $VENV_PIP install -r (Join-Path $SERVER_DIR "requirements.txt") --quiet
+    Write-Host "Downloading spaCy models..." -ForegroundColor Yellow
+    & $VENV_PYTHON -m spacy download en_core_web_sm | Out-Null
+    & $VENV_PYTHON -m spacy download en_core_web_lg | Out-Null
+} else {
+    Write-Host "Virtual environment .venv already exists. Skipping dependency installation." -ForegroundColor Green
+}
 
-Write-Host "Verifying spaCy models..." -ForegroundColor Yellow
-& $VENV_PYTHON -m spacy download en_core_web_sm | Out-Null
-& $VENV_PYTHON -m spacy download en_core_web_lg | Out-Null
 
 # 2. Free Port 8000 & Start FastAPI Backend Server
 Write-Host "[2/3] Starting FastAPI backend server on http://localhost:8000 ..." -ForegroundColor Yellow
