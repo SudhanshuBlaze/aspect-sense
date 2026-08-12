@@ -1,6 +1,7 @@
 import React from "react";
 import "./AnalyserPipeline.css";
 import { Table } from "semantic-ui-react";
+import { useTheme } from "../../context/ThemeContext";
 
 const CATEGORY_COLORS = {
   "Service":           { bg: "rgba(99,102,241,0.15)", color: "#818cf8", border: "rgba(99,102,241,0.3)" },
@@ -54,7 +55,7 @@ const PolarityBar = ({ polarity }) => {
       </div>
       <span style={{
         fontSize: "0.88rem", fontWeight: 700, minWidth: 42, textAlign: "right",
-        color: isPos ? "#34d399" : "#fb7185",
+        color: isPos ? "#10b981" : "#f43f5e",
       }}>
         {isPos ? "+" : ""}{polarity?.toFixed ? polarity.toFixed(2) : polarity}
       </span>
@@ -63,6 +64,8 @@ const PolarityBar = ({ polarity }) => {
 };
 
 const ReviewTable = ({ data }) => {
+  const { isDark } = useTheme();
+
   if (!data?.reviews || data.reviews.length === 0) return null;
 
   return (
@@ -71,18 +74,19 @@ const ReviewTable = ({ data }) => {
         <div>
           <h3 style={{
             fontFamily: "'Outfit', sans-serif",
-            margin: 0, fontSize: "1.25rem", fontWeight: 700, color: "#f8fafc",
+            margin: 0, fontSize: "1.25rem", fontWeight: 700, color: "var(--as-text-primary)",
+            transition: "color 0.3s ease",
           }}>
             Scraped &amp; Analyzed Reviews
           </h3>
-          <p style={{ margin: "3px 0 0", fontSize: "0.88rem", color: "#cbd5e1" }}>
+          <p style={{ margin: "3px 0 0", fontSize: "0.88rem", color: "var(--as-text-secondary)", transition: "color 0.3s ease" }}>
             {data.reviews.length} review{data.reviews.length !== 1 ? "s" : ""} processed
           </p>
         </div>
         <div style={{
           background: "rgba(99,102,241,0.15)",
           border: "1px solid rgba(99,102,241,0.3)",
-          color: "#a5b4fc",
+          color: isDark ? "#a5b4fc" : "#4338ca",
           padding: "6px 16px",
           borderRadius: 20,
           fontSize: "0.82rem",
@@ -116,14 +120,15 @@ const ReviewTable = ({ data }) => {
                 <Table.Row key={index}>
                   <Table.Cell style={{ verticalAlign: "top", padding: "0.75rem" }}>
                     <div style={{
-                      background: "rgba(15, 23, 42, 0.55)",
-                      border: "1px solid rgba(148, 163, 184, 0.18)",
+                      background: "var(--as-bg-surface)",
+                      border: "1px solid var(--as-border)",
                       borderRadius: "10px",
                       padding: "12px 14px",
-                      color: "#f8fafc",
+                      color: "var(--as-text-primary)",
                       fontSize: "0.98rem",
                       lineHeight: 1.65,
                       fontFamily: "'Inter', sans-serif",
+                      transition: "background 0.3s ease",
                     }}>
                       {row.reviews}
                     </div>
@@ -132,21 +137,22 @@ const ReviewTable = ({ data }) => {
                   <Table.Cell style={{ verticalAlign: "top", padding: "0.75rem" }}>
                     {segmented.map((seg, i) => (
                       <div key={i} style={{
-                        background: "rgba(15, 23, 42, 0.65)",
-                        border: "1px solid rgba(148, 163, 184, 0.18)",
+                        background: "var(--as-bg-surface)",
+                        border: "1px solid var(--as-border)",
                         borderLeft: "3px solid #6366f1",
                         borderRadius: "8px",
                         padding: "10px 14px",
                         marginBottom: "0.6rem",
                         fontSize: "0.94rem",
-                        color: "#f8fafc",
+                        color: "var(--as-text-primary)",
                         lineHeight: 1.6,
-                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                        boxShadow: "var(--as-shadow-card)",
                         fontFamily: "'Inter', sans-serif",
+                        transition: "background 0.3s ease",
                       }}>
                         <span style={{
                           fontSize: "0.74rem",
-                          color: "#a5b4fc",
+                          color: isDark ? "#a5b4fc" : "#4338ca",
                           fontWeight: 700,
                           letterSpacing: "0.05em",
                           textTransform: "uppercase",
@@ -167,14 +173,14 @@ const ReviewTable = ({ data }) => {
                           <div key={i} className="aspect-pill desc" style={{ display: "block", marginBottom: "0.5rem", padding: "0.4rem 0.75rem" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 3 }}>
                               <CategoryTag category={item.category} />
-                              <strong style={{ fontSize: "0.92rem", color: "#f8fafc" }}>{item.aspect}</strong>
+                              <strong style={{ fontSize: "0.92rem", color: "var(--as-text-primary)" }}>{item.aspect}</strong>
                             </div>
-                            <span style={{ fontSize: "0.88rem", color: "#cbd5e1", lineHeight: 1.5, display: "block", marginTop: 2 }}>→ {item.description}</span>
+                            <span style={{ fontSize: "0.88rem", color: "var(--as-text-secondary)", lineHeight: 1.5, display: "block", marginTop: 2 }}>→ {item.description}</span>
                           </div>
                         ) : null
                       )
                     ) : (
-                      <span style={{ color: "#94a3b8", fontSize: "0.88rem" }}>—</span>
+                      <span style={{ color: "var(--as-text-muted)", fontSize: "0.88rem" }}>—</span>
                     )}
                   </Table.Cell>
 
@@ -187,14 +193,14 @@ const ReviewTable = ({ data }) => {
                           <div key={i} className={`aspect-pill ${isPos ? "positive" : "negative"}`} style={{ display: "block", marginBottom: "0.5rem", padding: "0.4rem 0.75rem" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5, flexWrap: "wrap" }}>
                               <CategoryTag category={item.category} />
-                              <strong style={{ fontSize: "0.92rem", color: "#f8fafc" }}>{item.aspect}</strong>
+                              <strong style={{ fontSize: "0.92rem", color: "var(--as-text-primary)" }}>{item.aspect}</strong>
                             </div>
                             <PolarityBar polarity={item.polarity} />
                           </div>
                         );
                       })
                     ) : (
-                      <span style={{ color: "#94a3b8", fontSize: "0.88rem" }}>—</span>
+                      <span style={{ color: "var(--as-text-muted)", fontSize: "0.88rem" }}>—</span>
                     )}
                   </Table.Cell>
 

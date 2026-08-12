@@ -4,7 +4,43 @@
    AspectSense — Global Design System
    ========================================================= */
 
-:root {
+/* Default / Light Theme */
+:root, :root[data-theme="light"] {
+  --as-bg-base:        #f8fafc;
+  --as-bg-surface:     #ffffff;
+  --as-bg-card:        #ffffff;
+  --as-bg-glass:       rgba(255, 255, 255, 0.85);
+  --as-border:         rgba(203, 213, 225, 0.6);
+  --as-border-glow:    rgba(99, 102, 241, 0.25);
+
+  --as-text-primary:   #0f172a;
+  --as-text-secondary: #475569;
+  --as-text-muted:     #64748b;
+
+  --as-indigo:         #6366f1;
+  --as-indigo-light:   #4f46e5;
+  --as-violet:         #8b5cf6;
+  --as-teal:           #0d9488;
+  --as-emerald:        #059669;
+  --as-rose:           #e11d48;
+  --as-amber:          #d97706;
+
+  --as-gradient-brand:  linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%);
+  --as-gradient-hero:   linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f8fafc 100%);
+  --as-gradient-card:   linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+  --as-gradient-pos:    linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --as-gradient-neg:    linear-gradient(135deg, #f43f5e 0%, #dc2626 100%);
+
+  --as-shadow-card:    0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --as-shadow-glow:    0 0 40px rgba(99, 102, 241, 0.15);
+  --as-radius-sm:      8px;
+  --as-radius-md:      12px;
+  --as-radius-lg:      20px;
+  --as-radius-xl:      28px;
+}
+
+/* Dark Theme */
+:root[data-theme="dark"] {
   --as-bg-base:        #0f172a;
   --as-bg-surface:     #1e293b;
   --as-bg-card:        #1e293b;
@@ -32,10 +68,6 @@
 
   --as-shadow-card:    0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
   --as-shadow-glow:    0 0 40px rgba(99, 102, 241, 0.18);
-  --as-radius-sm:      8px;
-  --as-radius-md:      12px;
-  --as-radius-lg:      20px;
-  --as-radius-xl:      28px;
 }
 
 * {
@@ -57,11 +89,14 @@ body {
   min-height: 100vh;
   font-size: 15px;
   line-height: 1.65;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .App {
   min-height: 100vh;
   background: var(--as-bg-base);
+  color: var(--as-text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Override Semantic UI global backgrounds and typography */
@@ -72,15 +107,15 @@ body {
 }
 
 .ui.header, h1, h2, h3, h4, h5, h6 {
-  color: #f8fafc !important;
+  color: var(--as-text-primary) !important;
 }
 
 .ui.form label {
-  color: #cbd5e1 !important;
+  color: var(--as-text-secondary) !important;
 }
 
 p {
-  color: #cbd5e1;
+  color: var(--as-text-secondary);
 }
 
 

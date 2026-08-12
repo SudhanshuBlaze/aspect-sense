@@ -1,6 +1,7 @@
 import { Container } from "semantic-ui-react";
 import MenuRight from "./MenuRight";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
 const STATS = [
   { value: "100%", label: "Free & Open Source" },
@@ -11,31 +12,31 @@ const STATS = [
 
 const LandingSegment = () => {
   const navigate = useNavigate();
+  const { isDark } = useTheme();
 
   return (
     <div style={{
-      background: "linear-gradient(135deg, #0f172a 0%, #1a1040 40%, #0f172a 100%)",
+      background: "var(--as-gradient-hero)",
       paddingBottom: "2.5rem",
       position: "relative",
       overflow: "hidden",
+      transition: "background 0.3s ease",
     }}>
       {/* Ambient glow blobs */}
       <div style={{
         position: "absolute", top: "10%", left: "15%",
         width: 480, height: 480,
-        background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+        background: isDark
+          ? "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)"
+          : "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
         borderRadius: "50%", pointerEvents: "none",
       }} />
       <div style={{
         position: "absolute", bottom: "15%", right: "10%",
         width: 360, height: 360,
-        background: "radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)",
-        borderRadius: "50%", pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", top: "40%", right: "25%",
-        width: 200, height: 200,
-        background: "radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%)",
+        background: isDark
+          ? "radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)"
+          : "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)",
         borderRadius: "50%", pointerEvents: "none",
       }} />
 
@@ -57,10 +58,12 @@ const LandingSegment = () => {
           {/* Eyebrow badge */}
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 8,
-            background: "rgba(99,102,241,0.25)",
-            border: "1px solid rgba(99,102,241,0.4)",
+            background: isDark ? "rgba(99,102,241,0.25)" : "rgba(99,102,241,0.1)",
+            border: "1px solid rgba(99,102,241,0.35)",
             borderRadius: 20, padding: "7px 18px",
-            fontSize: "0.85rem", color: "#ffffff", fontWeight: 700,
+            fontSize: "0.85rem",
+            color: isDark ? "#ffffff" : "#4338ca",
+            fontWeight: 700,
             letterSpacing: "0.06em",
           }}>
             <span style={{
@@ -79,8 +82,9 @@ const LandingSegment = () => {
             fontWeight: 800,
             lineHeight: 1.08,
             letterSpacing: "-0.04em",
-            color: "#ffffff",
+            color: "var(--as-text-primary)",
             maxWidth: 820,
+            transition: "color 0.3s ease",
           }}>
             Aspect-Based{" "}
             <span style={{
@@ -97,10 +101,11 @@ const LandingSegment = () => {
           {/* Sub headline */}
           <p style={{
             fontSize: "1.25rem",
-            color: "#f1f5f9",
+            color: "var(--as-text-secondary)",
             maxWidth: 620,
             lineHeight: 1.75,
             fontWeight: 400,
+            transition: "color 0.3s ease",
           }}>
             Continuously scrape Google Maps reviews and extract fine-grained
             aspect insights — fully open-source, no API keys required.
@@ -120,31 +125,32 @@ const LandingSegment = () => {
                 fontWeight: 800,
                 cursor: "pointer",
                 fontFamily: "'Inter', sans-serif",
-                boxShadow: "0 4px 24px rgba(99,102,241,0.5)",
+                boxShadow: "0 4px 24px rgba(99,102,241,0.4)",
                 transition: "all 0.2s",
                 display: "flex", alignItems: "center", gap: 8,
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 32px rgba(99,102,241,0.7)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 24px rgba(99,102,241,0.5)"; }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 32px rgba(99,102,241,0.6)"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 24px rgba(99,102,241,0.4)"; }}
             >
               ⚡ Try the Pipeline →
             </button>
             <button
               onClick={() => navigate("/single_review")}
               style={{
-                background: "rgba(30,41,59,0.7)",
-                color: "#ffffff",
-                border: "1.5px solid rgba(148,163,184,0.35)",
+                background: "var(--as-bg-glass)",
+                color: "var(--as-text-primary)",
+                border: "1px solid var(--as-border)",
                 padding: "16px 36px",
                 borderRadius: 12,
                 fontSize: "1.02rem",
                 fontWeight: 700,
                 cursor: "pointer",
                 fontFamily: "'Inter', sans-serif",
+                boxShadow: "var(--as-shadow-card)",
                 transition: "all 0.2s",
               }}
-              onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "#6366f1"; e.currentTarget.style.background = "rgba(99,102,241,0.2)"; }}
-              onMouseLeave={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(148,163,184,0.35)"; e.currentTarget.style.background = "rgba(30,41,59,0.7)"; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "#6366f1"; e.currentTarget.style.background = isDark ? "rgba(99,102,241,0.2)" : "rgba(99,102,241,0.08)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--as-border)"; e.currentTarget.style.background = "var(--as-bg-glass)"; }}
             >
               🔍 Analyze a Review
             </button>
@@ -153,17 +159,19 @@ const LandingSegment = () => {
           {/* Stats bar */}
           <div style={{
             display: "flex", gap: "2px", flexWrap: "wrap", justifyContent: "center",
-            background: "rgba(30,41,59,0.85)",
-            border: "1px solid rgba(148,163,184,0.2)",
+            background: "var(--as-bg-glass)",
+            border: "1px solid var(--as-border)",
             borderRadius: 14,
             padding: "1.25rem 2.25rem",
             marginTop: "2rem",
+            boxShadow: "var(--as-shadow-card)",
+            transition: "background 0.3s ease, border-color 0.3s ease",
           }}>
             {STATS.map((s, i) => (
               <div key={i} style={{
                 display: "flex", flexDirection: "column", alignItems: "center",
                 padding: "0.5rem 2rem",
-                borderRight: i < STATS.length - 1 ? "1px solid rgba(148,163,184,0.2)" : "none",
+                borderRight: i < STATS.length - 1 ? "1px solid var(--as-border)" : "none",
               }}>
                 <span style={{
                   fontFamily: "'Outfit', sans-serif",
@@ -174,7 +182,7 @@ const LandingSegment = () => {
                   backgroundClip: "text",
                   lineHeight: 1.1,
                 }}>{s.value}</span>
-                <span style={{ fontSize: "0.85rem", color: "#f1f5f9", fontWeight: 600, marginTop: 4 }}>{s.label}</span>
+                <span style={{ fontSize: "0.85rem", color: "var(--as-text-secondary)", fontWeight: 600, marginTop: 4 }}>{s.label}</span>
               </div>
             ))}
           </div>

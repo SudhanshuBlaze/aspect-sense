@@ -1,8 +1,11 @@
 import React from "react";
 import "./AnalyserPipeline.css";
 import { Image, Grid } from "semantic-ui-react";
+import { useTheme } from "../../context/ThemeContext";
 
 const WordCloud = ({ data }) => {
+  const { isDark } = useTheme();
+
   if (!data?.positiveCloudImg && !data?.negativeCloudImg) return null;
 
   return (
@@ -11,8 +14,9 @@ const WordCloud = ({ data }) => {
         fontFamily: "'Outfit', sans-serif",
         fontSize: "1.1rem",
         fontWeight: 700,
-        color: "#f1f5f9",
+        color: "var(--as-text-primary)",
         marginBottom: "1.25rem",
+        transition: "color 0.3s ease",
       }}>
         Aspect Word Cloud Analysis
       </h3>
@@ -27,7 +31,7 @@ const WordCloud = ({ data }) => {
                   boxShadow: "0 0 8px rgba(16,185,129,0.8)",
                   display: "inline-block",
                 }} />
-                <h4 style={{ margin: 0, color: "#34d399", fontSize: "0.9rem", fontWeight: 700 }}>
+                <h4 style={{ margin: 0, color: isDark ? "#34d399" : "#059669", fontSize: "0.9rem", fontWeight: 700 }}>
                   Positive Aspects
                 </h4>
               </div>
@@ -37,10 +41,12 @@ const WordCloud = ({ data }) => {
               ) : (
                 <div style={{
                   padding: "3rem",
-                  color: "#cbd5e1",
+                  color: "var(--as-text-secondary)",
                   fontSize: "0.88rem",
-                  background: "rgba(15,23,42,0.4)",
+                  background: "var(--as-bg-surface)",
+                  border: "1px solid var(--as-border)",
                   borderRadius: 10,
+                  transition: "background 0.3s ease",
                 }}>
                   No positive aspects detected yet
                 </div>
@@ -57,7 +63,7 @@ const WordCloud = ({ data }) => {
                   boxShadow: "0 0 8px rgba(244,63,94,0.8)",
                   display: "inline-block",
                 }} />
-                <h4 style={{ margin: 0, color: "#fb7185", fontSize: "0.9rem", fontWeight: 700 }}>
+                <h4 style={{ margin: 0, color: isDark ? "#fb7185" : "#e11d48", fontSize: "0.9rem", fontWeight: 700 }}>
                   Negative Aspects
                 </h4>
               </div>
@@ -67,10 +73,12 @@ const WordCloud = ({ data }) => {
               ) : (
                 <div style={{
                   padding: "3rem",
-                  color: "#cbd5e1",
+                  color: "var(--as-text-secondary)",
                   fontSize: "0.88rem",
-                  background: "rgba(15,23,42,0.4)",
+                  background: "var(--as-bg-surface)",
+                  border: "1px solid var(--as-border)",
                   borderRadius: 10,
+                  transition: "background 0.3s ease",
                 }}>
                   No negative aspects detected yet
                 </div>

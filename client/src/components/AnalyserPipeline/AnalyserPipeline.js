@@ -8,6 +8,7 @@ import HeaderDesc from "../../ui/HeaderDesc";
 import MenuRight from "../../pages/Home/MenuRight";
 import "../../pages/Home/Home.css";
 import "./AnalyserPipeline.css";
+import { useTheme } from "../../context/ThemeContext";
 
 
 const AnalyserPipeline = () => {
@@ -16,6 +17,7 @@ const AnalyserPipeline = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeLocations, setActiveLocations] = useState(["Konark", "Puri", "Daringbadi", "Gopalpur", "Tampara"]);
   const [dbStats, setDbStats] = useState({});
+  const { isDark } = useTheme();
 
   const fetchActiveLocationsAndStats = async () => {
     try {
@@ -132,7 +134,7 @@ const AnalyserPipeline = () => {
   const storedDbCount = dbStats[activeLocKey] || dbStats[activeLocKey.toLowerCase()] || 0;
 
   return (
-    <div style={{ background: "#0f172a", minHeight: "100vh" }}>
+    <div style={{ background: "var(--as-bg-base)", minHeight: "100vh", transition: "background 0.3s ease" }}>
       <Container>
         <MenuRight />
       </Container>
@@ -158,9 +160,9 @@ const AnalyserPipeline = () => {
           margin: "1rem 0",
           padding: "0.9rem 1.35rem",
           borderRadius: 12,
-          background: "rgba(99,102,241,0.18)",
+          background: isDark ? "rgba(99,102,241,0.18)" : "rgba(99,102,241,0.1)",
           border: "1px solid rgba(99,102,241,0.35)",
-          color: "#e0e7ff",
+          color: "var(--as-text-primary)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -169,14 +171,13 @@ const AnalyserPipeline = () => {
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#6366f1", boxShadow: "0 0 8px #6366f1", display: "inline-block" }} />
-            Continuously monitoring <em style={{ marginLeft: 6, color: "#ffffff", fontStyle: "normal", fontWeight: 800 }}>"{location}"</em>
+            Continuously monitoring <em style={{ marginLeft: 6, color: "var(--as-text-primary)", fontStyle: "normal", fontWeight: 800 }}>"{location}"</em>
           </div>
-          <div style={{ color: storedDbCount > 0 ? "#a5b4fc" : "#34d399", fontWeight: 800, fontSize: "0.92rem" }}>
+          <div style={{ color: storedDbCount > 0 ? (isDark ? "#a5b4fc" : "#4338ca") : (isDark ? "#34d399" : "#059669"), fontWeight: 800, fontSize: "0.92rem" }}>
             {storedDbCount > 0 ? `💾 ${storedDbCount} reviews in DB` : "⚡ Extracting to DB…"}
           </div>
         </div>
       )}
-
 
       {isLoading && (
         <div className="streaming-status-bar">

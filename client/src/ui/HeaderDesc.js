@@ -4,10 +4,11 @@ const HeaderDesc = ({ header, description }) => (
       fontFamily: "'Outfit', sans-serif",
       fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
       fontWeight: 800,
-      color: "#f8fafc",
+      color: "var(--as-text-primary)",
       letterSpacing: "-0.03em",
       marginBottom: "0.5rem",
       lineHeight: 1.2,
+      transition: "color 0.3s ease",
     }}>
       {header}
     </h1>
@@ -20,11 +21,12 @@ const HeaderDesc = ({ header, description }) => (
     }} />
     {description && (
       <p style={{
-        color: "#cbd5e1",
+        color: "var(--as-text-secondary)",
         fontSize: "1.08rem",
         lineHeight: 1.7,
         maxWidth: 720,
         fontWeight: 400,
+        transition: "color 0.3s ease",
       }}>
         {description}
       </p>

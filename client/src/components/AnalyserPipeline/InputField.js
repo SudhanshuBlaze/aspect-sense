@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AnalyserPipeline.css";
 import { Button, Form, Input, Icon } from "semantic-ui-react";
+import { useTheme } from "../../context/ThemeContext";
 
 const InputField = ({
   handleSubmit,
@@ -14,6 +15,7 @@ const InputField = ({
 }) => {
   const [newLocationInput, setNewLocationInput] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
+  const { isDark } = useTheme();
 
   const handleLocationClick = (loc) => {
     setLocation(loc);
@@ -32,7 +34,7 @@ const InputField = ({
     <div className="input-card-container">
       <Form onSubmit={(e) => handleSubmit(e)}>
         <Form.Field>
-          <label style={{ fontWeight: 800, fontSize: "0.88rem", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.6rem", color: "#f8fafc" }}>
+          <label style={{ fontWeight: 800, fontSize: "0.88rem", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.6rem", color: "var(--as-text-primary)" }}>
             Location or Google Maps URL
           </label>
           <div style={{ display: "flex", gap: "10px" }}>
@@ -59,13 +61,13 @@ const InputField = ({
       </Form>
 
       {/* Active Locations Panel */}
-      <div style={{ marginTop: "1.5rem", borderTop: "1px solid rgba(148,163,184,0.15)", paddingTop: "1.25rem" }}>
+      <div style={{ marginTop: "1.5rem", borderTop: "1px solid var(--as-border)", paddingTop: "1.25rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
           <div>
-            <span style={{ fontSize: "0.9rem", fontWeight: 800, color: "#f8fafc", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            <span style={{ fontSize: "0.9rem", fontWeight: 800, color: "var(--as-text-primary)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
               📡 Active Scraping Locations
             </span>
-            <span style={{ fontSize: "0.85rem", color: "#a5b4fc", marginLeft: "0.6rem", fontWeight: 600 }}>
+            <span style={{ fontSize: "0.85rem", color: isDark ? "#a5b4fc" : "#4338ca", marginLeft: "0.6rem", fontWeight: 600 }}>
               — continuously monitored &amp; saved to DB
             </span>
           </div>
@@ -73,7 +75,7 @@ const InputField = ({
             style={{
               background: showAddForm ? "rgba(244,63,94,0.12)" : "rgba(99,102,241,0.12)",
               border: `1px solid ${showAddForm ? "rgba(244,63,94,0.3)" : "rgba(99,102,241,0.3)"}`,
-              color: showAddForm ? "#fb7185" : "#a5b4fc",
+              color: showAddForm ? "#fb7185" : (isDark ? "#a5b4fc" : "#4338ca"),
               padding: "6px 16px",
               borderRadius: 8,
               cursor: "pointer",
@@ -98,9 +100,9 @@ const InputField = ({
               onChange={(e) => setNewLocationInput(e.target.value)}
               style={{
                 flex: 1,
-                background: "rgba(15,23,42,0.8)",
-                border: "1px solid rgba(99,102,241,0.3)",
-                color: "#f1f5f9",
+                background: "var(--as-bg-surface)",
+                border: "1px solid var(--as-border)",
+                color: "var(--as-text-primary)",
                 padding: "9px 16px",
                 borderRadius: 8,
                 fontFamily: "'Inter', sans-serif",
@@ -111,7 +113,7 @@ const InputField = ({
             <button type="submit" style={{
               background: "rgba(16,185,129,0.15)",
               border: "1px solid rgba(16,185,129,0.35)",
-              color: "#34d399",
+              color: isDark ? "#34d399" : "#059669",
               padding: "8px 18px",
               borderRadius: 8,
               cursor: "pointer",
@@ -144,18 +146,18 @@ const InputField = ({
                   fontWeight: 600,
                   background: isSelected
                     ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
-                    : "rgba(15,23,42,0.7)",
-                  color: isSelected ? "#ffffff" : "#cbd5e1",
+                    : "var(--as-bg-surface)",
+                  color: isSelected ? "#ffffff" : "var(--as-text-secondary)",
                   border: isSelected
                     ? "1px solid rgba(99,102,241,0.5)"
-                    : "1px solid rgba(148,163,184,0.2)",
-                  boxShadow: isSelected ? "0 2px 12px rgba(99,102,241,0.4)" : "none",
+                    : "1px solid var(--as-border)",
+                  boxShadow: isSelected ? "0 2px 12px rgba(99,102,241,0.3)" : "none",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
                   fontFamily: "'Inter', sans-serif",
                 }}
-                onMouseEnter={e => { if (!isSelected) { e.currentTarget.style.borderColor = "rgba(99,102,241,0.35)"; e.currentTarget.style.color = "#ffffff"; }}}
-                onMouseLeave={e => { if (!isSelected) { e.currentTarget.style.borderColor = "rgba(148,163,184,0.2)"; e.currentTarget.style.color = "#cbd5e1"; }}}
+                onMouseEnter={e => { if (!isSelected) { e.currentTarget.style.borderColor = "rgba(99,102,241,0.35)"; e.currentTarget.style.color = "var(--as-text-primary)"; }}}
+                onMouseLeave={e => { if (!isSelected) { e.currentTarget.style.borderColor = "var(--as-border)"; e.currentTarget.style.color = "var(--as-text-secondary)"; }}}
               >
                 <span onClick={() => handleLocationClick(loc)}>
                   📍 {loc}
@@ -164,12 +166,12 @@ const InputField = ({
                   onClick={() => handleLocationClick(loc)}
                   style={{
                     display: "flex", alignItems: "center", gap: 3,
-                    background: isSelected ? "rgba(255,255,255,0.2)" : "rgba(148,163,184,0.08)",
+                    background: isSelected ? "rgba(255,255,255,0.2)" : "rgba(148,163,184,0.12)",
                     padding: "1px 7px",
                     borderRadius: 12,
                     fontSize: "0.72rem",
                     fontWeight: 700,
-                    color: isSelected ? "#ffffff" : (isLive ? "#34d399" : "#818cf8"),
+                    color: isSelected ? "#ffffff" : (isLive ? (isDark ? "#34d399" : "#059669") : (isDark ? "#818cf8" : "#4f46e5")),
                   }}
                 >
                   {isLive ? (

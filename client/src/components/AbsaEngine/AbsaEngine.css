@@ -16,26 +16,28 @@
 }
 
 .absa-input-panel {
-  background: rgba(30, 41, 59, 0.75);
+  background: var(--as-bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  border: 1px solid var(--as-border);
   border-radius: 20px;
   padding: 1.75rem;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--as-shadow-card);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .absa-results-panel {
-  background: rgba(30, 41, 59, 0.65);
+  background: var(--as-bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(148, 163, 184, 0.1);
+  border: 1px solid var(--as-border);
   border-radius: 20px;
   min-height: 480px;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--as-shadow-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .absa-results-panel > div {
@@ -55,8 +57,8 @@
 }
 
 .absa-skeleton-card {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: var(--as-bg-surface);
+  border: 1px solid var(--as-border);
   border-radius: 14px;
   padding: 1.1rem 1.25rem;
   display: flex;

@@ -7,17 +7,21 @@ import AnalyserPipeline from "./components/AnalyserPipeline/AnalyserPipeline";
 import Home from "./pages/Home/Home";
 
 
+import { ThemeProvider } from "./context/ThemeContext";
+
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/scrapper_pipeline" element={<AnalyserPipeline />} />
-          <Route path="/single_review" element={<AbsaEngine />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/scrapper_pipeline" element={<AnalyserPipeline />} />
+            <Route path="/single_review" element={<AbsaEngine />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

@@ -4,6 +4,7 @@ import "./AbsaEngine.css";
 import MenuRight from "../../pages/Home/MenuRight";
 import HeaderDesc from "../../ui/HeaderDesc";
 import { Container } from "semantic-ui-react";
+import { useTheme } from "../../context/ThemeContext";
 
 const CATEGORY_COLORS = {
   "Service":           { bg: "rgba(99,102,241,0.15)",  color: "#818cf8" },
@@ -32,6 +33,7 @@ const AbsaEngine = () => {
   const [review, setReview] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [engine, setEngine] = useState("hf");
+  const { isDark } = useTheme();
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
@@ -63,7 +65,7 @@ const AbsaEngine = () => {
   };
 
   return (
-    <div style={{ background: "#0f172a", minHeight: "100vh" }}>
+    <div style={{ background: "var(--as-bg-base)", minHeight: "100vh", transition: "background 0.3s ease" }}>
       <Container>
         <MenuRight />
       </Container>
@@ -79,7 +81,7 @@ const AbsaEngine = () => {
           <div className="absa-input-panel">
             {/* Engine Toggle */}
             <div style={{ marginBottom: "1.5rem" }}>
-              <p style={{ color: "#f8fafc", fontSize: "0.92rem", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
+              <p style={{ color: "var(--as-text-primary)", fontSize: "0.92rem", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
                 Analysis Engine
               </p>
               <div style={{ display: "flex", gap: "0.75rem" }}>
@@ -90,23 +92,23 @@ const AbsaEngine = () => {
                     style={{
                       flex: 1,
                       background: engine === eng.key
-                        ? "linear-gradient(135deg, rgba(99,102,241,0.35), rgba(168,85,247,0.25))"
-                        : "rgba(30,41,59,0.75)",
+                        ? (isDark ? "linear-gradient(135deg, rgba(99,102,241,0.35), rgba(168,85,247,0.25))" : "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.1))")
+                        : "var(--as-bg-surface)",
                       border: engine === eng.key
                         ? "2px solid #818cf8"
-                        : "1px solid rgba(148,163,184,0.25)",
+                        : "1px solid var(--as-border)",
                       borderRadius: 12,
                       padding: "14px 16px",
                       cursor: "pointer",
                       textAlign: "left",
                       transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                       fontFamily: "'Inter', sans-serif",
-                      boxShadow: engine === eng.key ? "0 0 20px rgba(99,102,241,0.35)" : "none",
+                      boxShadow: engine === eng.key ? "0 0 20px rgba(99,102,241,0.25)" : "none",
                     }}
                   >
                     <div style={{ fontSize: 24, marginBottom: "0.5rem", lineHeight: 1 }}>{eng.icon}</div>
                     <div style={{
-                      color: "#ffffff",
+                      color: "var(--as-text-primary)",
                       fontWeight: 700,
                       fontSize: "1.05rem",
                       marginBottom: "0.25rem",
@@ -115,7 +117,7 @@ const AbsaEngine = () => {
                       {eng.label}
                     </div>
                     <div style={{
-                      color: engine === eng.key ? "#c7d2fe" : "#94a3b8",
+                      color: engine === eng.key ? (isDark ? "#c7d2fe" : "#4338ca") : "var(--as-text-muted)",
                       fontSize: "0.88rem",
                       lineHeight: 1.4,
                       fontWeight: 600,
@@ -129,7 +131,7 @@ const AbsaEngine = () => {
 
             {/* Textarea */}
             <div style={{ marginBottom: "1.25rem" }}>
-              <p style={{ color: "#f8fafc", fontSize: "0.92rem", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
+              <p style={{ color: "var(--as-text-primary)", fontSize: "0.92rem", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
                 Review Text
               </p>
               <textarea
@@ -139,10 +141,10 @@ const AbsaEngine = () => {
                 rows={7}
                 style={{
                   width: "100%",
-                  background: "rgba(15,23,42,0.85)",
-                  border: "1.5px solid rgba(148,163,184,0.25)",
+                  background: "var(--as-bg-surface)",
+                  border: "1.5px solid var(--as-border)",
                   borderRadius: 12,
-                  color: "#ffffff",
+                  color: "var(--as-text-primary)",
                   fontFamily: "'Inter', sans-serif",
                   fontSize: "0.98rem",
                   padding: "14px 16px",
@@ -152,22 +154,22 @@ const AbsaEngine = () => {
                   transition: "all 0.2s ease",
                 }}
                 onFocus={e => e.target.style.borderColor = "#818cf8"}
-                onBlur={e => e.target.style.borderColor = "rgba(148,163,184,0.25)"}
+                onBlur={e => e.target.style.borderColor = "var(--as-border)"}
               />
             </div>
 
             {/* Sample reviews */}
             <div style={{ marginBottom: "1.5rem" }}>
-              <p style={{ color: "#f8fafc", fontSize: "0.92rem", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
+              <p style={{ color: "var(--as-text-primary)", fontSize: "0.92rem", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
                 Try a sample review:
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                 {SAMPLE_REVIEWS.map((sr, i) => (
                   <button key={i} onClick={() => setReview(sr)} style={{
-                    background: "rgba(30,41,59,0.75)",
-                    border: "1px solid rgba(148,163,184,0.2)",
+                    background: "var(--as-bg-surface)",
+                    border: "1px solid var(--as-border)",
                     borderRadius: 10,
-                    color: "#cbd5e1",
+                    color: "var(--as-text-secondary)",
                     textAlign: "left",
                     padding: "10px 14px",
                     cursor: "pointer",
@@ -178,15 +180,15 @@ const AbsaEngine = () => {
                     transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.color = "#ffffff";
+                    e.currentTarget.style.color = "var(--as-text-primary)";
                     e.currentTarget.style.borderColor = "#818cf8";
-                    e.currentTarget.style.background = "rgba(99,102,241,0.18)";
+                    e.currentTarget.style.background = isDark ? "rgba(99,102,241,0.18)" : "rgba(99,102,241,0.08)";
                     e.currentTarget.style.transform = "translateX(3px)";
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.color = "#cbd5e1";
-                    e.currentTarget.style.borderColor = "rgba(148,163,184,0.2)";
-                    e.currentTarget.style.background = "rgba(30,41,59,0.75)";
+                    e.currentTarget.style.color = "var(--as-text-secondary)";
+                    e.currentTarget.style.borderColor = "var(--as-border)";
+                    e.currentTarget.style.background = "var(--as-bg-surface)";
                     e.currentTarget.style.transform = "none";
                   }}
                   >
@@ -240,7 +242,7 @@ const AbsaEngine = () => {
               <div style={{
                 display: "flex", flexDirection: "column", alignItems: "center",
                 justifyContent: "center", height: "100%", textAlign: "center",
-                color: "#cbd5e1", gap: "1rem", padding: "2rem",
+                color: "var(--as-text-secondary)", gap: "1rem", padding: "2rem",
               }}>
                 <div style={{
                   width: 64, height: 64, borderRadius: "50%",
@@ -251,10 +253,10 @@ const AbsaEngine = () => {
                   🔍
                 </div>
                 <div>
-                  <h4 style={{ color: "#f8fafc", fontWeight: 700, margin: "0 0 0.4rem", fontSize: "1.1rem" }}>
+                  <h4 style={{ color: "var(--as-text-primary)", fontWeight: 700, margin: "0 0 0.4rem", fontSize: "1.1rem" }}>
                     Ready for Analysis
                   </h4>
-                  <p style={{ color: "#94a3b8", fontSize: "0.92rem", lineHeight: 1.6, maxWidth: 320, margin: 0 }}>
+                  <p style={{ color: "var(--as-text-secondary)", fontSize: "0.92rem", lineHeight: 1.6, maxWidth: 320, margin: 0 }}>
                     Select a model engine and paste a customer review to see extracted aspect-descriptor pairs and sentiment scores.
                   </p>
                 </div>
@@ -269,7 +271,7 @@ const AbsaEngine = () => {
                     borderTop: "3px solid #818cf8", borderRadius: "50%",
                     animation: "spin 0.8s linear infinite",
                   }} />
-                  <span style={{ color: "#a5b4fc", fontSize: "0.95rem", fontWeight: 700 }}>
+                  <span style={{ color: isDark ? "#a5b4fc" : "#4338ca", fontSize: "0.95rem", fontWeight: 700 }}>
                     Running {engine === "hf" ? "RoBERTa Transformer" : "spaCy Dependency"} Engine...
                   </span>
                 </div>
@@ -286,23 +288,23 @@ const AbsaEngine = () => {
             )}
 
             {response && response.length === 0 && (
-              <div style={{ padding: "3rem 2rem", textAlign: "center", color: "#cbd5e1" }}>
+              <div style={{ padding: "3rem 2rem", textAlign: "center", color: "var(--as-text-secondary)" }}>
                 <div style={{ fontSize: 40, marginBottom: "0.75rem" }}>😶</div>
-                <h4 style={{ color: "#f8fafc", fontWeight: 700, margin: "0 0 0.5rem" }}>No Aspects Detected</h4>
-                <p style={{ color: "#94a3b8", fontSize: "0.92rem" }}>Try adjusting your review text or switching the NLP engine.</p>
+                <h4 style={{ color: "var(--as-text-primary)", fontWeight: 700, margin: "0 0 0.5rem" }}>No Aspects Detected</h4>
+                <p style={{ color: "var(--as-text-secondary)", fontSize: "0.92rem" }}>Try adjusting your review text or switching the NLP engine.</p>
               </div>
             )}
 
             {response && response.length > 0 && (
               <div style={{ padding: "0.5rem" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
-                  <h4 style={{ color: "#f8fafc", fontFamily: "'Outfit', sans-serif", fontWeight: 700, margin: 0, fontSize: "1.15rem" }}>
+                  <h4 style={{ color: "var(--as-text-primary)", fontFamily: "'Outfit', sans-serif", fontWeight: 700, margin: 0, fontSize: "1.15rem" }}>
                     Extracted Aspect Insights
                   </h4>
                   <span style={{
                     background: "rgba(99,102,241,0.15)",
                     border: "1px solid rgba(99,102,241,0.35)",
-                    color: "#c7d2fe", fontSize: "0.8rem", fontWeight: 800,
+                    color: isDark ? "#c7d2fe" : "#4338ca", fontSize: "0.8rem", fontWeight: 800,
                     padding: "4px 14px", borderRadius: 20,
                   }}>
                     {response.length} aspect{response.length !== 1 ? "s" : ""}
@@ -318,12 +320,13 @@ const AbsaEngine = () => {
 
                     return (
                       <div key={i} style={{
-                        background: "rgba(15,23,42,0.75)",
+                        background: "var(--as-bg-surface)",
                         border: `1.5px solid ${sentBorder}`,
                         borderRadius: 14,
                         padding: "1.1rem 1.25rem",
                         animation: `fadeInUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.06}s both`,
-                        boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+                        boxShadow: "var(--as-shadow-card)",
+                        transition: "background 0.3s ease",
                       }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
@@ -334,7 +337,7 @@ const AbsaEngine = () => {
                             }}>
                               {item.category || "General"}
                             </span>
-                            <strong style={{ color: "#ffffff", fontSize: "1.02rem", fontWeight: 800 }}>
+                            <strong style={{ color: "var(--as-text-primary)", fontSize: "1.02rem", fontWeight: 800 }}>
                               {item.aspect}
                             </strong>
                           </div>
@@ -355,15 +358,15 @@ const AbsaEngine = () => {
                         </div>
 
                         {item.descriptor && (
-                          <p style={{ color: "#e2e8f0", fontSize: "0.9rem", margin: "0 0 12px", lineHeight: 1.5, fontWeight: 500 }}>
-                            <span style={{ color: "#94a3b8", fontWeight: 600 }}>Descriptor: </span>
+                          <p style={{ color: "var(--as-text-primary)", fontSize: "0.9rem", margin: "0 0 12px", lineHeight: 1.5, fontWeight: 500 }}>
+                            <span style={{ color: "var(--as-text-muted)", fontWeight: 600 }}>Descriptor: </span>
                             "{item.descriptor}"
                           </p>
                         )}
 
                         {pol != null && (
                           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                            <div style={{ flex: 1, height: 6, borderRadius: 4, background: "rgba(148,163,184,0.12)" }}>
+                            <div style={{ flex: 1, height: 6, borderRadius: 4, background: "rgba(148,163,184,0.15)" }}>
                               <div style={{
                                 width: `${pct}%`, height: "100%", borderRadius: 4,
                                 background: isPos
