@@ -42,3 +42,42 @@ def get_reviews(location="Konark") -> List[str]:
             print(f"SQLite query error: {str(e)}")
 
     return review_list
+
+
+def get_existing_captions(location: str) -> set:
+    """
+    Returns a set of all review captions stored in MongoDB and SQLite for the given location.
+    Used to pre-filter scraped reviews BEFORE executing ABSA.
+    """
+    captions = set()
+    loc_clean = location.strip()
+    if not loc_clean:
+        return captions
+
+    # Check MongoDB
+    try:
+        db_instance = Database()
+        if db_instance.db is not None:
+            db_instance.db.command('ping')
+            collection = db_instance.db[loc_clean]
+            for doc in collection.find({}, {"caption": 1}):
+                c = doc.get("caption")
+                if c:
+                    captions.add(c.strip())
+    except Exception:
+        pass
+
+    # Check SQLite
+    try:
+        if os.path.exists(SQLITE_DB_PATH):
+            conn = sqlite3.connect(SQLITE_DB_PATH)
+            cursor = conn.cursor()
+            cursor.execute("SELECT caption FROM reviews WHERE location LIKE ?", (f"%{loc_clean}%",))
+            for row in cursor.fetchall():
+                if row[0]:
+                    captions.add(row[0].strip())
+            conn.close()
+    except Exception as e:
+        print(f"SQLite get_existing_captions error: {str(e)}")
+
+    return captions

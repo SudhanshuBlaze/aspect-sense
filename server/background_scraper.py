@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from utils.reviews_scraper import ReviewsScraper
 from utils.pipeline import process_review_batch
 from database.queries.save_reviews import save_reviews, get_db_stats
+from database.queries.get_reviews import get_existing_captions
 
 DEFAULT_LOCATIONS = ["Konark Sun Temple", "Puri Jagannath Temple", "Daringbadi Nature Park", "Gopalpur Sea Beach", "Tampara Lake"]
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), "active_locations.json")
@@ -114,13 +115,23 @@ class BackgroundScraperManager:
     def _scrape_single_target(self, target: str) -> int:
         log_msg(f"Starting continuous scrape for target: '{target}' (scrolls={self.scroll_counts})...")
         try:
+            # Fetch existing saved captions for pre-filtering
+            existing_captions = get_existing_captions(target)
+
             with ReviewsScraper(target) as scraper:
-                df_scraped = scraper.scrape_reviews(scroll_counts=self.scroll_counts)
+                df_scraped = scraper.scrape_reviews(scroll_counts=self.scroll_counts, sort_newest=True)
                 if df_scraped is not None and not df_scraped.empty:
                     raw_reviews = df_scraped['reviews'].tolist()
-                    log_msg(f"Scraped {len(raw_reviews)} review cards from Google Maps for '{target}'. Processing ABSA...")
                     
-                    df_processed = process_review_batch(raw_reviews, location=target)
+                    # Pre-filter out duplicate reviews BEFORE running spaCy ABSA
+                    new_reviews = [r for r in raw_reviews if r and r.strip() not in existing_captions]
+                    
+                    if not new_reviews:
+                        log_msg(f"Notice: Scraped {len(raw_reviews)} cards for '{target}', but ALL {len(raw_reviews)} reviews are already saved in DB. Skipping ABSA.")
+                        return 0
+
+                    log_msg(f"Scraped {len(raw_reviews)} review cards for '{target}'. Found {len(new_reviews)} NEW reviews to process with ABSA...")
+                    df_processed = process_review_batch(new_reviews, location=target)
                     added_count = save_reviews(target, df_processed)
                     log_msg(f"SUCCESS: Saved {added_count} new non-duplicate reviews to DB for '{target}'.")
                     return added_count
@@ -146,7 +157,7 @@ class BackgroundScraperManager:
                     break
                 added = self._scrape_single_target(target)
                 total_added += added
-                time.sleep(2)
+                time.sleep(1)
 
             stats = get_db_stats()
             log_msg(f"=== CONTINUOUS PASS #{self.pass_number} COMPLETE === Added {total_added} new reviews. DB Totals: {stats}")
